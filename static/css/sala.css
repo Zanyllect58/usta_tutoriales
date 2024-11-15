@@ -2,7 +2,7 @@
 .sala * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
 }
 
 .sala body {
@@ -14,7 +14,8 @@
 }
 
 .sala .container {
-    max-width: 800px;
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    max-width: 600px; /* Limita el ancho máximo del contenedor */
     margin: 0 auto;
     background-color: #fff;
     padding: 30px;
@@ -24,13 +25,20 @@
 
 .sala h1 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: px;  /* Reducir el margen inferior para acercar el título al formulario */
     color: #3498db;
 }
 
 /* Estilos del formulario */
+.sala #formulario-sala {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;  /* Asegura que no haya margen adicional arriba del formulario */
+}
+
 .sala .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;  /* Reducir margen inferior entre los grupos de formulario */
 }
 
 .sala label {
@@ -41,77 +49,24 @@
 
 .sala input[type="text"],
 .sala input[type="number"],
-.sala textarea,
+.sala input[type="email"],
+.sala input[type="date"],
 .sala select {
-    width: 100%;
-    padding: 10px;
+    width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
+    padding: 12px; /* Aumenta el padding para que se vea más espacioso */
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+    margin: 0; /* Elimina márgenes adicionales */
+    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
 }
 
-.sala textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-.sala .recursos-lista {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sala .recurso-item {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.sala .recurso-item input {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.sala .btn-agregar {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.sala .btn-agregar:hover {
-    background-color: #2980b9;
-}
-
-.sala .btn-eliminar {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.sala .btn-eliminar:hover {
-    background-color: #c0392b;
-}
-
-.sala .checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.sala .checkbox-group label {
-    display: flex;
-    align-items: center;
-    font-weight: normal;
-}
-
-.sala .checkbox-group input[type="checkbox"] {
-    margin-right: 5px;
+.sala input[type="text"]:focus,
+.sala input[type="number"]:focus,
+.sala input[type="email"]:focus,
+.sala input[type="date"]:focus {
+    outline: none;
+    border-color: #3498db; /* Resalta el borde cuando el input está en foco */
 }
 
 .sala .btn-submit {

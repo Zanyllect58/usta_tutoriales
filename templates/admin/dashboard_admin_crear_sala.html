@@ -1,5 +1,5 @@
 <!-- templates/dashboard.html -->
-{% extends 'components/base.html' %} 
+{% extends 'components/base.html' %}
 
 {% block content %}
 
@@ -14,35 +14,22 @@
                 <label for="nombre-sala">Nombre de la Sala:</label>
                 <input type="text" id="nombre-sala" name="nombre-sala" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" required></textarea>
+                <input type="text" id="descripcion" name="descripcion" required>
             </div>
-            
-            <div class="form-group">
-                <label>Recursos Disponibles:</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="recursos[]" value="pizarra"> Pizarra</label>
-                    <label><input type="checkbox" name="recursos[]" value="proyector"> Proyector</label>
-                    <label><input type="checkbox" name="recursos[]" value="computadoras"> Computadoras</label>
-                    <label><input type="checkbox" name="recursos[]" value="internet"> Internet de alta velocidad</label>
-                    <label><input type="checkbox" name="recursos[]" value="videoconferencia"> Equipo de videoconferencia </label>
-                </div>
-            </div>
-            
 
-            
             <div class="form-group">
                 <label for="horario">Horario de Disponibilidad:</label>
-                <textarea id="horario" name="horario" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required></textarea>
+                <input type="text" id="horario" name="horario" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="ubicacion">Ubicación:</label>
                 <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Edificio A, Piso 2, Sala 201" required>
             </div>
-            
+
             <button type="submit" class="btn-submit">Crear Sala</button>
         </form>
     </div>
