@@ -1,156 +1,70 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Estudiante - TutorU</title>
-    <style>
-        /* Estilos generales */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f6f9;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #3498db;
-        }
+<!-- register.html -->
+{% extends 'components/base_principal.html' %}
+
+{% block head %}
+    <!-- Cargar el archivo CSS solo en la página de registro -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <h1>Registro de Estudiante</h1>
+
+    <!-- Mensaje flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form id="registro-estudiante" action="{{ url_for('crear_usuario') }}" method="POST" novalidate>
+        <div class="form-group">
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
         
-        /* Estilos del formulario */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="tel"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .btn-submit {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 18px;
-            display: block;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
-        .btn-submit:hover {
-            background-color: #2980b9;
-        }
-        .error-message {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .flash-message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .flash-message.success {
-            background-color: #2ecc71;
-            color: white;
-        }
-        .flash-message.error {
-            background-color: #e74c3c;
-            color: white;
-        }
+        <div class="form-group">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required minlength="8">
+        </div>
+        
+        <div class="form-group">
+            <label for="confirm-password">Confirmar Contraseña:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required minlength="8">
+        </div>
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Registro de Estudiante</h1>
+        <div class="form-group">
+            <label for="carrera">Carrera:</label>
+            <input type="text" id="carrera" name="carrera" required>
+        </div>
 
-        <!-- Mensaje flash -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div>
-                    {% for category, message in messages %}
-                        <div class="flash-message {{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+        <div class="form-group">
+            <label for="semestre">Semestre:</label>
+            <select id="semestre" name="semestre" required>
+                <option value="" disabled selected>Seleccione un semestre</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
 
-        <form id="registro-estudiante" action="{{ url_for('crear_usuario') }}" method="POST" novalidate>
-            <div class="form-group">
-                <label for="nombre">Nombre completo:</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required minlength="8">
-            </div>
-            
-            <div class="form-group">
-                <label for="confirm-password">Confirmar Contraseña:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required minlength="8">
-            </div>
-
-            <div class="form-group">
-                <label for="carrera">Carrera:</label>
-                <input type="text" id="carrera" name="carrera" required>
-            </div>
-
-            <div class="form-group">
-                <label for="semestre">Sem estre:</label>
-                <input type="text" id="semestre" name="semestre" required>
-            </div>
-
-            <div class="form-group">
-                <label for="tipo-usuario">Tipo de Usuario:</label>
-                <select id="tipo-usuario" name="tipo-usuario" required>
-                    <option value="usuario">Usuario</option>
-                    <option value="admin">Administrador</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-submit">Registrar</button>
-        </form>
-    </div>
-</body>
-</html>
+        <button type="submit" class="btn-submit">Registrar</button>
+    </form>
+</div>
+{% endblock %}

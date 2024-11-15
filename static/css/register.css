@@ -1,0 +1,130 @@
+/* Estilos específicos solo para la página de registro */
+.register-page {
+    background-color: #f7f7f7; /* Fondo solo para la página de registro */
+}
+
+.register-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+}
+
+.register-container .form-group {
+    margin-bottom: 20px;
+}
+
+.register-container label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+}
+
+.register-container input,
+.register-container select {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px; /* Asegura espacio entre los campos */
+}
+
+.register-container .btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.register-container .btn-submit:hover {
+    background-color: #2980b9;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Asegurarse de que el navbar no se vea afectado */
+.navbar {
+    display: block; /* Si necesitas asegurarte de que no se modifique */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .register-container .form-group input,
+    .register-container .form-group select {
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-container {
+        padding: 20px;
+    }
+}
+
+/* Estilos para el select del semestre */
+.register-container select {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;  /* Aseguramos que haya espacio entre los campos */
+}
+
+/* Estilo del botón para el semestre */
+.register-container .btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.register-container .btn-submit:hover {
+    background-color: #2980b9;
+}
