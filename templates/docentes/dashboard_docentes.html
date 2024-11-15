@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Docente - TutorU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --card-background: #ffffff;
+            --card-border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--card-background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 1rem;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tutorias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tutoria-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .tutoria-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tutoria-title {
+            font-size: 1.25rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .tutoria-materia {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tutoria-info {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .tutoria-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .tutorias-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">TutorU</div>
+                <div class="user-menu">
+                    <span>Bienvenido, Profesor</span>
+                    <img src="https://via.placeholder.com/40" alt="Foto de perfil">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Dashboard Docente</h1>
+            <section class="tutorias-grid">
+                <article class="tutoria-card">
+                    <h2 class="tutoria-title">Tutoría de Matemáticas</h2>
+                    <p class="tutoria-materia">Cálculo Diferencial</p>
+                    <div class="tutoria-info">
+                        <p>Fecha: 15 de Mayo, 2024</p>
+                        <p>Hora: 14:00 - 15:30</p>
+                        <p>Estudiantes: 5</p>
+                    </div>
+                </article>
+                <article class="tutoria-card">
+                    <h2 class="tutoria-title">Tutoría de Física</h2>
+                    <p class="tutoria-materia">Mecánica Clásica</p>
+                    <div class="tutoria-info">
+                        <p>Fecha: 16 de Mayo, 2024</p>
+                        <p>Hora: 10:00 - 11:30</p>
+                        <p>Estudiantes: 3</p>
+                    </div>
+                </article>
+                <article class="tutoria-card">
+                    <h2 class="tutoria-title">Tutoría de Programación</h2>
+                    <p class="tutoria-materia">Estructuras de Datos</p>
+                    <div class="tutoria-info">
+                        <p>Fecha: 17 de Mayo, 2024</p>
+                        <p>Hora: 16:00 - 17:30</p>
+                        <p>Estudiantes: 4</p>
+                    </div>
+                </article>
+                <article class="tutoria-card">
+                    <h2 class="tutoria-title">Tutoría de Química</h2>
+                    <p class="tutoria-materia">Química Orgánica</p>
+                    <div class="tutoria-info">
+                        <p>Fecha: 18 de Mayo, 2024</p>
+                        <p>Hora: 09:00 - 10:30</p>
+                        <p>Estudiantes: 6</p>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

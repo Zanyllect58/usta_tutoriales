@@ -1,0 +1,139 @@
+/* Estilos generales */
+.sala * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sala body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f6f9;
+    padding: 20px;
+}
+
+.sala .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sala h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #3498db;
+}
+
+/* Estilos del formulario */
+.sala .form-group {
+    margin-bottom: 20px;
+}
+
+.sala label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.sala input[type="text"],
+.sala input[type="number"],
+.sala textarea,
+.sala select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.sala textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.sala .recursos-lista {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sala .recurso-item {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.sala .recurso-item input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.sala .btn-agregar {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.sala .btn-agregar:hover {
+    background-color: #2980b9;
+}
+
+.sala .btn-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.sala .btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+.sala .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sala .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+}
+
+.sala .checkbox-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.sala .btn-submit {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.sala .btn-submit:hover {
+    background-color: #27ae60;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .sala .container {
+        padding: 20px;
+    }
+}

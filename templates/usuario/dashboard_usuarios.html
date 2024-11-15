@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Usuario - TutorU</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f6f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Botón de Cerrar Sesión */
+        .logout-btn {
+            margin-left: 15px;
+            padding: 8px 15px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Secciones del dashboard */
+        .dashboard-section {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .dashboard-section h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        /* Lista de sesiones */
+        .session-list {
+            list-style-type: none;
+        }
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .session-item:last-child {
+            border-bottom: none;
+        }
+        .session-info {
+            flex-grow: 1;
+        }
+        .session-subject {
+            font-weight: bold;
+        }
+        .session-time, .session-tutor {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .user-info {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Dashboard de Usuario</h1>
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40" alt="Foto de perfil">
+                    <span>Bienvenido, {{ session.get('user_name', 'Invitado') }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="dashboard-section">
+            <h2>Próximas Sesiones</h2>
+            <ul class="session-list">
+                <li class="session-item">
+                    <div class="session-info">
+                        <div class="session-subject">Matemáticas Avanzadas</div>
+                        <div class="session-time">Hoy, 15:00 - 16:30</div>
+                        <div class="session-tutor">Tutor: Ana García</div>
+                    </div>
+                    <a href="#" class="btn">Unirse</a>
+                </li>
+                <li class="session-item">
+                    <div class="session-info">
+                        <div class="session-subject">Física Cuántica</div>
+                        <div class="session-time">Mañana, 10:00 - 11:30</div>
+                        <div class="session-tutor">Tutor: Carlos Rodríguez</div>
+                    </div>
+                    <a href="#" class="btn">Unirse</a>
+                </li>
+                <li class="session-item">
+                    <div class="session-info">
+                        <div class="session-subject">Literatura Contemporánea</div>
+                        <div class="session-time">23/05, 14:30 - 16:00</div>
+                        <div class="session-tutor">Tutor: María López</div>
+                    </div>
+                    <a href="#" class="btn">Unirse</a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Acciones Rápidas</h2>
+            <a href="#" class="btn">Reservar Nueva Sesión</a>
+            <a href="#" class="btn" style="margin-left: 10px;">Ver Historial de Sesiones</a>
+        </section>
+    </main>
+</body>
+</html>

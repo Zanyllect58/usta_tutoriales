@@ -1,0 +1,83 @@
+/* Estilos para la página de editar usuario */
+.editar-usuario {
+    width: 100%; /* Asegura que todo el formulario ocupe el ancho completo */
+    padding: 30px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+/* Estilo de los encabezados (h1) en esta página */
+.editar-usuario h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #3498db;
+}
+
+/* Estilos para el formulario de edición de usuario */
+.editar-usuario form {
+    width: 100%; /* El formulario ocupa el 100% del ancho */
+    display: flex;
+    flex-direction: column; /* Los campos estarán apilados verticalmente */
+}
+
+/* Estilos para los campos del formulario */
+.editar-usuario .form-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo de los labels */
+.editar-usuario label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para los campos de texto (input y select) */
+.editar-usuario input[type="text"],
+.editar-usuario input[type="email"],
+.editar-usuario select {
+    width: 100%; /* Los campos ocupan el 100% del ancho */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* Incluye el padding en el cálculo del ancho */
+}
+
+/* Botón de envío (guardar cambios) */
+.editar-usuario button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 250px; /* Limita el tamaño máximo del botón */
+    margin: 20px auto 0; /* Centra el botón horizontalmente */
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Efecto hover en el botón */
+.editar-usuario button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+/* Mensajes de error */
+.editar-usuario .error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Estilo para el formulario responsivo */
+@media (max-width: 600px) {
+    .editar-usuario form {
+        padding: 15px;
+    }
+    
+    .editar-usuario .form-group {
+        margin-bottom: 15px;
+    }
+}

@@ -1,0 +1,79 @@
+<!-- templates/dashboard.html -->
+{% extends 'components/base.html' %}
+
+{% block content %}
+    {% include 'components/header.html' %}
+  <!-- Sección de estadísticas del dashboard -->
+  <section class="dashboard-grid">
+    {% set stats = [('Total de Usuarios', 1256), ('Sesiones Este Mes', 3128)] %}
+    {% for title, count in stats %}
+        <div class="dashboard-card">
+            <h3>{{ title }}</h3>
+            <p class="number">{{ count }}</p>
+        </div>
+    {% endfor %}
+</section>
+
+    <!-- Tabla de últimos usuarios registrados -->
+    <section class="table-container">
+        <h3>Últimos Usuarios Registrados</h3>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Tipo</th>
+                    <th>Fecha de Registro</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in ultimos_usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.tipo }}</td>
+                        <td>{{ usuario.fecha_registro }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">No hay usuarios registrados recientemente.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+  
+    <!-- Tabla de últimas tutorías -->
+    <section class="table-container">
+        <h3>Últimas Tutorías</h3>
+        <table class="tutorias-table">
+            <thead>
+                <tr>
+                    <th>ID Tutoría</th>
+                    <th>Tutor</th>
+                    <th>Estudiante</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tutoria in ultimas_tutorias %}
+                    <tr>
+                        <td>{{ tutoria.id }}</td>
+                        <td>{{ tutoria.tutor }}</td>
+                        <td>{{ tutoria.estudiante }}</td>
+                        <td>{{ tutoria.fecha }}</td>
+                        <td>{{ tutoria.estado }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">No hay tutorías recientes.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

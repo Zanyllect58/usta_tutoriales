@@ -1,0 +1,175 @@
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;         /* Organiza los elementos en columna */
+    height: 100vh;                  /* Altura completa de la ventana */
+    position: fixed;                /* Fijado en pantalla */
+    top: 0;
+    left: 0;
+    width: 220px;
+    background-color: #1a2b3c;      /* Fondo oscuro elegante */
+    color: #ecf0f1;                 /* Color claro para el texto */
+    padding: 25px 20px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2); /* Sombra suave para separar visualmente */
+    border-right: 2px solid #34495e; /* Línea sutil de separación */
+    z-index: 1000;
+}
+
+/* Título dentro del sidebar */
+.sidebar h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 600;               /* Título más prominente */
+    text-transform: uppercase;      /* Estilo de mayúsculas */
+    letter-spacing: 1px;            /* Espaciado para un toque moderno */
+    color: #ecf0f1;                 /* Color claro */
+    text-align: center;
+}
+
+/* Lista de navegación */
+.sidebar ul {
+    list-style-type: none;          /* Eliminar los puntos de lista */
+    padding-left: 0;
+    margin-bottom: auto;            /* Empuja el contenido hacia arriba */
+}
+
+/* Ítems de la lista */
+.sidebar ul li {
+    margin-bottom: 20px;            /* Espacio entre ítems */
+}
+
+/* Enlaces dentro del sidebar */
+.sidebar ul li a {
+    color: #ecf0f1;                 /* Color del enlace */
+    text-decoration: none;          /* Sin subrayado */
+    display: block;                 /* Enlace ocupa todo el ancho */
+    padding: 12px 18px;
+    border-radius: 8px;             /* Bordes suaves */
+    font-size: 18px;                /* Tamaño moderado para los enlaces */
+    transition: background-color 0.3s ease, padding 0.3s ease; /* Transición suave */
+}
+
+/* Hover y enlace activo */
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background-color: #34495e;      /* Fondo oscuro al pasar el mouse */
+    padding-left: 25px;             /* Desplazamiento hacia la izquierda al pasar el mouse */
+    color: #fff;                    /* Cambiar el color del texto */
+}
+
+/* Enlace activo */
+.sidebar ul li a.active {
+    font-weight: bold;              /* Enlace activo en negrita */
+    background-color: #2980b9;      /* Fondo azul para el enlace activo */
+}
+
+/* Botón de cierre de sesión */
+.logout-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #e74c3c;      /* Fondo rojo elegante */
+    color: white;
+    font-size: 18px;
+    font-weight: 600;               /* Peso de la fuente más alto */
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover en el botón de salida */
+.logout-button:hover {
+    background-color: #c0392b;      /* Fondo más oscuro en hover */
+    cursor: pointer;
+}
+
+/* Ajustes para el contenedor del botón de salir */
+.logout-container {
+    margin-top: auto; /* Empuja el botón de salida hasta el fondo */
+    width: 100%;
+}
+
+/* Contenedor principal de la página */
+.main-content {
+    margin-left: 240px;             /* Espacio para la barra lateral */
+    padding: 40px 30px;
+    background-color: #ecf0f1;      /* Fondo claro para el contenido */
+    min-height: 100vh;              /* Altura mínima para el contenido */
+}
+
+/* Títulos dentro de la vista principal */
+h1, h2, h3 {
+    font-family: 'Arial', sans-serif;
+    color: #2c3e50;
+    font-weight: 700;               /* Negrita para mayor énfasis */
+    margin-bottom: 20px;
+}
+
+/* Tarjetas del dashboard */
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover en las tarjetas del dashboard */
+.dashboard-card:hover {
+    transform: translateY(-8px);     /* Efecto de elevación */
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+/* Tabla de usuarios */
+.table-container h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Estilos de las tablas */
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 15px;
+}
+
+.table th {
+    background-color: #34495e;
+    color: #fff;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Botones de acción */
+.btn-action {
+    font-size: 14px;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estilo de botones de editar */
+.btn-edit {
+    background-color: #2980b9;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #1f6e8c;
+}
+
+/* Estilo de botones de eliminar */
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
