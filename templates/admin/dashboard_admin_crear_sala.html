@@ -21,23 +21,6 @@
             </div>
             
             <div class="form-group">
-                <label for="capacidad">Capacidad (número de estudiantes):</label>
-                <input type="number" id="capacidad" name="capacidad" min="1" max="50" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="tipo-sala">Tipo de Sala:</label>
-                <select id="tipo-sala" name="tipo-sala" required>
-                    <option value="">Selecciona un tipo</option>
-                    <option value="individual">Tutoría Individual</option>
-                    <option value="grupal">Tutoría Grupal</option>
-                    <option value="laboratorio">Laboratorio</option>
-                    <option value="conferencia">Sala de Conferencias</option>
-                    <option value="estudio">Sala de Estudio</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
                 <label>Recursos Disponibles:</label>
                 <div class="checkbox-group">
                     <label><input type="checkbox" name="recursos[]" value="pizarra"> Pizarra</label>
@@ -48,16 +31,7 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label>Equipamiento Adicional:</label>
-                <ul class="recursos-lista" id="recursos-lista">
-                    <li class="recurso-item">
-                        <input type="text" name="equipamiento[]" placeholder="Ej: Microscopio, Tableta gráfica">
-                        <button type="button" class="btn-eliminar">Eliminar</button>
-                    </li>
-                </ul>
-                <button type="button" class="btn-agregar" id="agregar-recurso">Agregar Equipamiento</button>
-            </div>
+
             
             <div class="form-group">
                 <label for="horario">Horario de Disponibilidad:</label>
