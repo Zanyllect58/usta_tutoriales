@@ -1,0 +1,84 @@
+/* login.css */
+
+/* Estilos generales para la página de login */
+body {
+    background-color: #f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal del formulario de login */
+.login-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #3498db;
+}
+
+/* Estilos del formulario */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.btn-submit {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos de mensajes de error */
+.flash-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.flash-message.success {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.flash-message.error {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+    }
+}

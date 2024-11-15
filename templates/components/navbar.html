@@ -1,0 +1,30 @@
+<!-- navbar.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TutorU - Tutorías Universitarias Personalizadas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_principal.css') }}">
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">TutorU</div>
+                <div class="auth-buttons">
+                    <a href="{{ url_for('login') }}" class="auth-button login">Iniciar Sesión</a>
+                    <a href="{{ url_for('crear_usuario') }}" class="auth-button register">Registrarse</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        <!-- Aquí se renderizará el contenido específico de cada vista -->
+        {% endblock %}
+    </main>
+</body>
+</html>

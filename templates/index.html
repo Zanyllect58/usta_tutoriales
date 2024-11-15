@@ -1,290 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TutorU - Tutorías Universitarias Personalizadas</title>
-    <style>
-        /* Estilos generales */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header */
-        header {
-            background-color: #3498db;
-            color: #fff;
-            padding: 1rem 0;
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        .nav-links li {
-            margin-left: 20px;
-        }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-        }
+{% extends 'components/base_principal.html' %} 
 
-        .auth-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .auth-button {
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .login {
-            background-color: transparent;
-            color: #fff;
-            border: 2px solid #fff;
-        }
-        .login:hover {
-            background-color: #fff;
-            color: #3498db;
-        }
-        .register {
-            background-color: #2ecc71;
-            color: #fff;
-        }
-        .register:hover {
-            background-color: #27ae60;
-        }
-        
-        /* Hero section */
-        .hero {
-            background-color: #f4f9fd;
-            padding: 4rem 0;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .cta-button {
-            display: inline-block;
-            background-color: #2ecc71;
-            color: #fff;
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .cta-button:hover {
-            background-color: #27ae60;
-        }
-        
-        /* Features section */
-        .features {
-            padding: 4rem 0;
-            background-color: #fff;
-        }
-        .features h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .feature-card {
-            background-color: #f4f9fd;
-            border-radius: 5px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        .feature-card h3 {
-            margin-bottom: 1rem;
-        }
-        
-        /* Testimonials section */
-        .testimonials {
-            background-color: #3498db;
-            color: #fff;
-            padding: 4rem 0;
-            text-align: center;
-        }
-        .testimonials h2 {
-            margin-bottom: 2rem;
-        }
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .testimonial-card {
-            background-color: #fff;
-            color: #333;
-            border-radius: 5px;
-            padding: 1.5rem;
-        }
-        .testimonial-card p {
-            font-style: italic;
-            margin-bottom: 1rem;
-        }
-        .testimonial-card .author {
-            font-weight: bold;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #34495e;
-            color: #fff;
-            padding: 2rem 0;
-            text-align: center;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            margin-bottom: 1rem;
-        }
-        .footer-links li {
-            margin: 0 10px;
-        }
-        .footer-links a {
-            color: #fff;
-            text-decoration: none;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links, .auth-buttons {
-                display: none;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .menu-toggle {
-                display: block;
-                font-size: 1.5rem;
-                color: #fff;
-                cursor: pointer;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
+{% block content %}
+<main class="full-width-container">
+    <section class="hero">
         <div class="container">
-            <nav>
-                <div class="logo">TutorU</div>
-                <ul class="nav-links">
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-                <div class="auth-buttons">
-                    <a href="{{ url_for('login') }}" class="auth-button login">Iniciar Sesión</a>
-                    <a href="{{ url_for('crear_usuario') }}" class="auth-button register">Registrarse</a>
-                    
-                </div>
-               
-            </nav>
+            <h1>Tutorías Universitarias Personalizadas</h1>
+            <p>Alcanza tu máximo potencial académico con nuestro apoyo experto.</p>
+            <a href="#" class="cta-button">Reserva tu primera sesión gratis</a>
         </div>
-    </header>
+    </section>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Tutorías Universitarias Personalizadas</h1>
-                <p>Alcanza tu máximo potencial académico con nuestro apoyo experto</p>
-                <a href="#" class="cta-button">Reserva tu primera sesión gratis</a>
-            </div>
-        </section>
-
-        <section class="features" id="servicios">
-            <div class="container">
-                <h2>Nuestros Servicios</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h3>Tutorías Individuales</h3>
-                        <p>Sesiones personalizadas adaptadas a tus necesidades académicas específicas.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Grupos de Estudio</h3>
-                        <p>Aprende colaborativamente con otros estudiantes bajo la guía de un tutor experto.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Consultas Online</h3>
-                        <p>Resuelve dudas rápidas a través de nuestra plataforma en línea, disponible 24/7.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Preparación para Exámenes</h3>
-                        <p>Estrategias y técnicas de estudio para enfrentar con éxito tus evaluaciones.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="testimonials">
-            <div class="container">
-                <h2>Lo que dicen nuestros estudiantes</h2>
-                <div class="testimonial-grid">
-                    <div class="testimonial-card">
-                        <p>"Gracias a TutorU, pude mejorar mis calificaciones significativamente. Los tutores son increíbles y muy pacientes."</p>
-                        <span class="author">- Ana García, Estudiante de Ingeniería</span>
-                    </div>
-                    <div class="testimonial-card">
-                        <p>"Las sesiones de grupo me ayudaron a entender conceptos complejos de una manera divertida y colaborativa."</p>
-                        <span class="author">- Carlos Rodríguez, Estudiante de Economía</span>
-                    </div>
-                    <div class="testimonial-card">
-                        <p>"La flexibilidad de las consultas online se adapta perfectamente a mi horario. ¡Altamente recomendado!"</p>
-                        <span class="author">- María López, Estudiante de Medicina</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
+    <section class="features" id="servicios">
         <div class="container">
-            <ul class="footer-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-                <li><a href="#privacidad">Política de Privacidad</a></li>
-            </ul>
-            <p>&copy; 2024 TutorU. Todos los derechos reservados.</p>
+            <h2>Nuestros Servicios</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Tutorías Individuales</h3>
+                    <p>Sesiones personalizadas adaptadas a tus necesidades académicas específicas.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Grupos de Estudio</h3>
+                    <p>Aprende colaborativamente con otros estudiantes bajo la guía de un tutor experto.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Consultas Online</h3>
+                    <p>Resuelve dudas rápidas a través de nuestra plataforma en línea, disponible 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Preparación para Exámenes</h3>
+                    <p>Estrategias y técnicas de estudio para enfrentar con éxito tus evaluaciones.</p>
+                </div>
+            </div>
         </div>
-    </footer>
-</body>
-</html>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2>Lo que dicen nuestros estudiantes</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"Gracias a TutorU, pude mejorar mis calificaciones significativamente. Los tutores son increíbles y muy pacientes."</p>
+                    <span class="author">- Ana García, Estudiante de Ingeniería</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Las sesiones de grupo me ayudaron a entender conceptos complejos de una manera divertida y colaborativa."</p>
+                    <span class="author">- Carlos Rodríguez, Estudiante de Economía</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"La flexibilidad de las consultas online se adapta perfectamente a mi horario. ¡Altamente recomendado!"</p>
+                    <span class="author">- María López, Estudiante de Medicina</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

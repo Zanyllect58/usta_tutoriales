@@ -1,0 +1,41 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TutorU - Tutorías Universitarias Personalizadas</title>
+
+    <!-- Cargar CSS común -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_principal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Puedes agregar otros CSS comunes aquí -->
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Incluir el navbar -->
+    {% include 'components/navbar.html' %}
+
+    <main>
+        {% block content %}
+        <!-- Aquí se renderizará el contenido específico de cada vista -->
+        {% endblock %}
+    </main>
+
+    <!-- Incluir el footer -->
+    <footer>
+        <div class="footer-container">
+            <ul class="footer-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#privacidad">Política de Privacidad</a></li>
+            </ul>
+            <p>&copy; 2024 TutorU. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
