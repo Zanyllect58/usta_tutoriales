@@ -15,7 +15,7 @@
 .register-container h1 {
     text-align: center;
     font-size: 24px;
-    color: #333;
+    color: #01479B;
 }
 
 .register-container .form-group {
@@ -24,8 +24,8 @@
 
 .register-container label {
     display: block;
-    font-size: 14px;
-    color: #555;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .register-container input,
@@ -41,7 +41,7 @@
 .register-container .btn-submit {
     width: 100%;
     padding: 15px;
-    background-color: #3498db;
+    background-color: #01479B;
     color: white;
     border: none;
     border-radius: 4px;
@@ -52,7 +52,7 @@
 }
 
 .register-container .btn-submit:hover {
-    background-color: #2980b9;
+    background-color: #01479B;
 }
 
 .register-link {
@@ -115,7 +115,7 @@
 .register-container .btn-submit {
     width: 100%;
     padding: 15px;
-    background-color: #3498db;
+    background-color: #01479B;
     color: white;
     border: none;
     border-radius: 4px;
@@ -126,5 +126,5 @@
 }
 
 .register-container .btn-submit:hover {
-    background-color: #2980b9;
+    background-color: #01479B;
 }

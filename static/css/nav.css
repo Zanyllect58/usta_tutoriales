@@ -7,11 +7,10 @@
     top: 0;
     left: 0;
     width: 220px;
-    background-color: #1a2b3c;      /* Fondo oscuro elegante */
+    background-color: #81BDC1;      /* Fondo oscuro elegante */
     color: #ecf0f1;                 /* Color claro para el texto */
     padding: 25px 20px;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2); /* Sombra suave para separar visualmente */
-    border-right: 2px solid #34495e; /* Línea sutil de separación */
     z-index: 1000;
 }
 
@@ -99,7 +98,7 @@
 /* Títulos dentro de la vista principal */
 h1, h2, h3 {
     font-family: 'Arial', sans-serif;
-    color: #2c3e50;
+    color: #01478D;
     font-weight: 700;               /* Negrita para mayor énfasis */
     margin-bottom: 20px;
 }
@@ -125,7 +124,7 @@ h1, h2, h3 {
 .table-container h3 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: #01478D;
     margin-bottom: 30px;
 }
 
