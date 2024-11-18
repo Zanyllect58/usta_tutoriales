@@ -20,6 +20,11 @@ def dashboard():
 def dashboard_usuarios():
     return render_template('usuario/dashboard_usuarios.html')
 
+@app.route('/dashboard_docentes')
+def dashboard_docentes():
+    return render_template('docentes/dashboard_docentes.html')
+
+
 # Rutas relacionadas con la gestión de usuarios
 @app.route('/dashboard_admin_usuarios', methods=['GET'])
 def users():
