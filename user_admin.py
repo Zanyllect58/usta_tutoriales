@@ -17,6 +17,9 @@ class User(db.Model):
     password = db.Column(db.String(128), nullable=False)
     role = db.Column(db.Enum('admin', 'student', 'teacher'), nullable=False)
     identificacion = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    career = db.Column(db.String(120))
+    semester = db.Column(db.String(120))
 
 # Crear la base de datos y las tablas
 with app.app_context():
@@ -28,6 +31,7 @@ def create_admin_user():
     password = '1234'  # Cambia por la contraseña deseada
     role = 'admin'
     identificacion = '8787'  # Un identificador único
+    email = 'admon@admon.com'
 
     # Verificar si el usuario ya existe
     existing_user = User.query.filter((User.username == username) | (User.identificacion == identificacion)).first()
@@ -39,7 +43,7 @@ def create_admin_user():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Crear el usuario
-        admin_user = User(username=username, password=hashed_password, role=role, identificacion=identificacion)
+        admin_user = User(username=username, password=hashed_password, role=role, identificacion=identificacion, email=email)
 
         # Agregar y guardar en la base de datos
         db.session.add(admin_user)

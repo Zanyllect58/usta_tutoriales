@@ -11,36 +11,35 @@
             <!-- Nombre completo -->
             <div class="form-group">
                 <label for="nombre">Nombre completo:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="text" name="username" value="{{user.username}}" required>
             </div>
             
             <!-- Correo electrónico -->
             <div class="form-group">
                 <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" name="email" value="{{user.email}}" required>
             </div>
             
             <!-- Tipo de usuario -->
             <div class="form-group">
                 <label for="tipo-usuario">Tipo de usuario:</label>
-                <select id="tipo-usuario" name="tipo-usuario" required>
-                    <option value="" disabled>Selecciona un tipo</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="tutor">Tutor</option>
-                    <option value="admin">Administrador</option>
+                <select name="role" id="role" required>
+                    <option value="student" {% if user.role == 'student' %}selected{% endif %}>Estudiante</option>
+                    <option value="teacher" {% if user.role == 'teacher' %}selected{% endif %}>Tutor</option>
+                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Administrador</option>
                 </select>
             </div>
             
             <!-- Carrera -->
             <div class="form-group">
                 <label for="carrera">Carrera:</label>
-                <input type="text" id="carrera" name="carrera">
+                <input type="text" value="{{user.career}}" name="career">
             </div>
             
             <!-- Semestre -->
             <div class="form-group">
                 <label for="semestre">Semestre actual:</label>
-                <select id="semestre" name="semestre" required>
+                <select id="semester" name="semester" required>
                     <option value="" disabled>Selecciona un semestre</option>
                     {% for i in range(1, 11) %}
                         <option value="{{ i }}">{{ i }}º semestre</option>
@@ -49,7 +48,7 @@
             </div>
             
             <!-- Botón de guardar -->
-            <button type="submit" class="btn-submit">Crear Usuario</button>
+            <button type="submit" class="btn-submit">Editar Usuario</button>
         </form>
     </div>
 </div>

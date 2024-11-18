@@ -1,226 +1,250 @@
 /* Estilos generales */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #01478D;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #01478d;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
-.container-services{
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 10px;
-    background-color: #01478D;
+.container-services {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+  background-color: #01478d;
 }
 
 /* Header */
 header {
-    background-color: #6CBCC7;
-    color: #fff;
-    padding: 1rem 0;
+  background-color: #6cbcc7;
+  color: #fff;
+  padding: 1rem 0;
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .auth-buttons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .auth-button {
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .login {
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid #fff;
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
 }
 
 .login:hover {
-    background-color: #fff;
-    color: #3498db;
+  background-color: #fff;
+  color: #3498db;
 }
 
 .register {
-    background-color: #0169AB;
-    color: #fff;
+  background-color: #0169ab;
+  color: #fff;
 }
 
 .register:hover {
-    background-color: #0169AB;
+  background-color: #0169ab;
 }
 
 /* Main content */
 main {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 /* Hero section */
 .hero {
-    background-color: #f4f9fd;
-    padding: 4rem 0;
-    text-align: center;
+  background-color: #f4f9fd;
+  padding: 4rem 0;
+  text-align: center;
 }
 
 .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .hero p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
 }
 
 .cta-button {
-    display: inline-block;
-    background-color: #0169AB;
-    color: #fff;
-    padding: 0.8rem 1.5rem;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s;
+  display: inline-block;
+  background-color: #0169ab;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
 .cta-button:hover {
-    background-color: #0169AB;
+  background-color: #0169ab;
 }
 
 /* Features section */
 .features {
-    padding: 20px 0;
-    background-color: #01478D;
-    
+  padding: 20px 0;
+  background-color: #01478d;
 }
-.h2-1{
-    color: #fff;
+.h2-1 {
+  color: #fff;
 }
 .features h2 {
-    text-align: center;
-    margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
 }
 
 .feature-card {
-    background-color: #f4f9fd;
-    border-radius: 5px;
-    padding: 1.5rem;
-    text-align: center;
+  background-color: #f4f9fd;
+  border-radius: 5px;
+  padding: 1.5rem;
+  text-align: center;
 }
 
 .feature-card h3 {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Testimonials section */
 .testimonials {
-    background-color: #6CBCC7;
-    color: #fff;
-    padding: 4rem 0;
-    text-align: center;
-    border-top: 4px solid #C8336E !important;
+  background-color: #6cbcc7;
+  color: #fff;
+  padding: 4rem 0;
+  text-align: center;
+  border-top: 4px solid #c8336e !important;
 }
 
 .testimonials h2 {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 2rem;
 }
 
 .testimonial-card {
-    background-color: #fff;
-    color: #333;
-    border-radius: 5px;
-    padding: 1.5rem;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+  padding: 1.5rem;
 }
 
 .testimonial-card p {
-    font-style: italic;
-    margin-bottom: 1rem;
+  color: black;
+  cursor: pointer;
+  outline: invert;
 }
 
 .testimonial-card .author {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 /* Footer */
 footer {
-    background-color: #34495e;
-    color: #fff;
-    padding: 2rem 0;
-    text-align: center;
+  background-color: #34495e;
+  color: #fff;
+  padding: 2rem 0;
+  text-align: center;
 }
 
 .footer-links {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-bottom: 1rem;
 }
 
 .footer-links li {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 .footer-links a {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .auth-buttons {
-        display: none;
-    }
+  .auth-buttons {
+    display: none;
+  }
 
-    .hero h1 {
-        font-size: 2rem;
-    }
+  .hero h1 {
+    font-size: 2rem;
+  }
 
-    .hero p {
-        font-size: 1rem;
-    }
+  .hero p {
+    font-size: 1rem;
+  }
 
-    .feature-grid,
-    .testimonial-grid {
-        grid-template-columns: 1fr;
-    }
+  .feature-grid,
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
 }
+
+.enlace {
+    outline: none;
+    text-decoration: none;
+    padding: 2px 1px 0;
+  }
+
+  .enlace:link {
+    color: black;
+  }
+
+  .enlace:visited {
+    color: black;
+  }
+
+  .enlace:hover {
+    border-bottom: 1px solid;
+    color: #6cbcc7;
+  }
+  .enlace:active {
+    background: #01478d;
+    color: white;
+  }
