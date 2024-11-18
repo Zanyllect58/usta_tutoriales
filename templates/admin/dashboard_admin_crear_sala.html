@@ -1,5 +1,5 @@
 <!-- templates/dashboard.html -->
-{% extends 'components/base.html' %} 
+{% extends 'components/base.html' %}
 
 {% block content %}
 
@@ -14,61 +14,22 @@
                 <label for="nombre-sala">Nombre de la Sala:</label>
                 <input type="text" id="nombre-sala" name="nombre-sala" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" required></textarea>
+                <input type="text" id="descripcion" name="descripcion" required>
             </div>
-            
-            <div class="form-group">
-                <label for="capacidad">Capacidad (número de estudiantes):</label>
-                <input type="number" id="capacidad" name="capacidad" min="1" max="50" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="tipo-sala">Tipo de Sala:</label>
-                <select id="tipo-sala" name="tipo-sala" required>
-                    <option value="">Selecciona un tipo</option>
-                    <option value="individual">Tutoría Individual</option>
-                    <option value="grupal">Tutoría Grupal</option>
-                    <option value="laboratorio">Laboratorio</option>
-                    <option value="conferencia">Sala de Conferencias</option>
-                    <option value="estudio">Sala de Estudio</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Recursos Disponibles:</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="recursos[]" value="pizarra"> Pizarra</label>
-                    <label><input type="checkbox" name="recursos[]" value="proyector"> Proyector</label>
-                    <label><input type="checkbox" name="recursos[]" value="computadoras"> Computadoras</label>
-                    <label><input type="checkbox" name="recursos[]" value="internet"> Internet de alta velocidad</label>
-                    <label><input type="checkbox" name="recursos[]" value="videoconferencia"> Equipo de videoconferencia </label>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Equipamiento Adicional:</label>
-                <ul class="recursos-lista" id="recursos-lista">
-                    <li class="recurso-item">
-                        <input type="text" name="equipamiento[]" placeholder="Ej: Microscopio, Tableta gráfica">
-                        <button type="button" class="btn-eliminar">Eliminar</button>
-                    </li>
-                </ul>
-                <button type="button" class="btn-agregar" id="agregar-recurso">Agregar Equipamiento</button>
-            </div>
-            
+
             <div class="form-group">
                 <label for="horario">Horario de Disponibilidad:</label>
-                <textarea id="horario" name="horario" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required></textarea>
+                <input type="text" id="horario" name="horario" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="ubicacion">Ubicación:</label>
                 <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Edificio A, Piso 2, Sala 201" required>
             </div>
-            
+
             <button type="submit" class="btn-submit">Crear Sala</button>
         </form>
     </div>
