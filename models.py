@@ -9,3 +9,5 @@ class User(db.Model):
     role = db.Column(db.Enum('admin', 'student', 'teacher'), nullable=False)
     identificacion = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)  # Add this line
+    career = db.Column(db.String(120))
+    semester = db.Column(db.String(120))

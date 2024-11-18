@@ -28,16 +28,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for usuario in usuarios %}
+            {% for user in users %}
             <tr>
-                <td>{{ usuario.id }}</td>
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>{{ usuario.carrera }}</td>
-                <td>{{ usuario.semestre }}</td>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.career }}</td>
+                <td>{{ user.semester }}</td>
                 <td>
-                    <a href="{{ url_for('editar_usuario', id=usuario.id) }}" class="btn-action btn-edit">Editar</a>
-                    <a href="{{ url_for('eliminar_usuario', id=usuario.id) }}" class="btn-action btn-delete">Eliminar</a>
+                    <a href="{{ url_for('editar_usuario', user_id=user.id) }}" class="btn-action btn-edit">Editar</a>
+                    <a href="{{ url_for('eliminar_usuario', user_id=user.id) }}" class="btn-action btn-delete">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
