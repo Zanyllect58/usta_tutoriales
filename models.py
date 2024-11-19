@@ -1,6 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from flask_mysqldb import MySQL
+from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
+
+bcrypt = Bcrypt()
+mysql = MySQL()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

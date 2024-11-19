@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from config import Config
-from models import User, db
+from models import User, db,bcrypt, mysql
+
 
 app = Flask(__name__, template_folder='templates')  # Asegúrate de que 'templates' sea la carpeta correcta
 app.config.from_object(Config)
@@ -31,9 +32,30 @@ def users():
     user = User.query.all()  # Cambié 'user' a 'users'
     return render_template('admin/dashboard_admin_usuarios.html', user =user)  # Cambié 'user' a 'users'
 
-@app.route('/registrar_usuarios')
+@app.route('/registrar', methods=['GET', 'POST'])
 def crear_usuario():
-    return render_template('registrar.html')  # Ruta correcta si está directamente en templates
+    
+    if request.method == 'POST':
+        
+        username = request.form['nombre']    
+        email = request.form['email'] 
+        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8') 
+        role = 'student'
+        identificacion = request.form['confirm_number'] 
+        career = request.form['carrera']
+        semester = request.form['semestre']
+        new_user = User(username=username, email=email, password=password, role=role,
+                        identificacion=identificacion, career=career, semester=semester)
+
+        # Agregar el nuevo usuario a la sesión de la base de datos
+        db.session.add(new_user)
+
+        db.session.commit()
+        flash("Estudiante agregado correctamente.", "success")  # Mensaje de éxito
+    
+       
+    return render_template('registrar.html')
+
 
 @app.route('/editar_usuario/<int:user_id>', methods=['GET', 'POST'])
 def editar_usuario(user_id):
