@@ -14,18 +14,18 @@
             <!-- Nombre completo -->
             <div class="form-group">
                 <label for="nombre">Nombre completo:</label>
-                <input type="text" name="username" value="{{ user.username }}" required>
+                <input type="text" id="nombre" name="username" value="{{ user.username }}" required>
             </div>
             
             <!-- Correo electrónico -->
             <div class="form-group">
                 <label for="email">Correo electrónico:</label>
-                <input type="email" name="email" value="{{ user.email }}" required>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
             </div>
             
             <!-- Tipo de usuario -->
             <div class="form-group">
-                <label for="tipo-usuario">Tipo de usuario:</label>
+                <label for="role">Tipo de usuario:</label>
                 <select name="role" id="role" required>
                     <option value="student" {% if user.role == 'student' %}selected{% endif %}>Estudiante</option>
                     <option value="teacher" {% if user.role == 'teacher' %}selected{% endif %}>Tutor</option>
@@ -36,13 +36,13 @@
             <!-- Carrera -->
             <div class="form-group">
                 <label for="carrera">Carrera:</label>
-                <input type="text" value="{{ user.career }}" name="career">
+                <input type="text" id="carrera" name="career" value="{{ user.career }}">
             </div>
             
             <!-- Semestre -->
             <div class="form-group">
-                <label for="semestre">Semestre actual:</label>
-                <select id="semester" name ="semester" required>
+                <label for="semester">Semestre actual:</label>
+                <select id="semester" name="semester" required>
                     <option value="" disabled {% if not user.semester %}selected{% endif %}>Selecciona un semestre</option>
                     {% for i in range(1, 11) %}
                         <option value="{{ i }}" {% if user.semester == i %}selected{% endif %}>{{ i }}º semestre</option>
@@ -55,4 +55,5 @@
         </form>
     </div>
 </div>
+
 {% endblock %}
