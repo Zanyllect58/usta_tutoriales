@@ -28,8 +28,8 @@ def dashboard_docentes():
 # Rutas relacionadas con la gestión de usuarios
 @app.route('/dashboard_admin_usuarios', methods=['GET'])
 def users():
-    users = User.query.all()
-    return render_template('admin/dashboard_admin_usuarios.html', users=users)
+    user = User.query.all()  # Cambié 'user' a 'users'
+    return render_template('admin/dashboard_admin_usuarios.html', user =user)  # Cambié 'user' a 'users'
 
 @app.route('/registrar_usuarios')
 def crear_usuario():
