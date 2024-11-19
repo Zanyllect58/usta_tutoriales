@@ -34,27 +34,29 @@ def users():
 
 @app.route('/registrar', methods=['GET', 'POST'])
 def crear_usuario():
-    
     if request.method == 'POST':
-        
+        # Recolectar datos del formulario
         username = request.form['nombre']    
         email = request.form['email'] 
         password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8') 
-        role = 'student'
-        identificacion = request.form['confirm_number'] 
+        role = 'student'  # Asignar rol de estudiante por defecto
+        identificacion = request.form['confirm-number']  # Actualización aquí
         career = request.form['carrera']
         semester = request.form['semestre']
+
+        # Crear nuevo usuario
         new_user = User(username=username, email=email, password=password, role=role,
                         identificacion=identificacion, career=career, semester=semester)
 
-        # Agregar el nuevo usuario a la sesión de la base de datos
+        # Guardar en la base de datos
         db.session.add(new_user)
-
         db.session.commit()
+        
         flash("Estudiante agregado correctamente.", "success")  # Mensaje de éxito
+        return redirect(url_for('crear_usuario'))  # Redirigir para evitar reenvíos de formularios
     
-       
     return render_template('registrar.html')
+
 
 
 @app.route('/editar_usuario/<int:user_id>', methods=['GET', 'POST'])
@@ -90,9 +92,20 @@ def editar_usuario(user_id):
 
     return render_template('admin/dashboard_admin_usuarios_editar_usuarios.html', user = user)  # Ruta correcta en la carpeta admin
 
-@app.route('/eliminar_usuario')
-def eliminar_usuario():
-    return render_template('admin/dashboard_admin_usuarios.html')  # Ruta correcta en la carpeta admin
+@app.route('/eliminar_usuario/<int:user_id>', methods=['POST', 'GET'])
+def eliminar_usuario(user_id):
+    # Buscar al usuario por su ID
+    user = User.query.get(user_id)
+    if not user:
+        flash("El usuario no existe.", "danger")
+        return redirect(url_for('users'))
+
+    # Eliminar el usuario
+    db.session.delete(user)
+    db.session.commit()
+    flash("Usuario eliminado correctamente.", "success")
+    return redirect(url_for('users'))
+
 
 # Rutas relacionadas con salas
 @app.route('/crear_sala')
