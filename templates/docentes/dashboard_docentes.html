@@ -57,11 +57,16 @@
             align-items: center;
         }
 
+        .user-menu span {
+            margin-right: 1rem;
+            font-size: 1rem;
+            color: var(--secondary-color);
+        }
+
         .user-menu img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            margin-left: 1rem;
         }
 
         main {
@@ -114,6 +119,22 @@
             margin-bottom: 0.5rem;
         }
 
+        .ver-estudiantes-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .ver-estudiantes-btn:hover {
+            background-color: #2980b9;
+        }
+
         @media (max-width: 768px) {
             .tutorias-grid {
                 grid-template-columns: 1fr;
@@ -127,7 +148,7 @@
             <nav>
                 <div class="logo">TutorU</div>
                 <div class="user-menu">
-                    <span>Bienvenido, Profesor</span>
+                    <span>Bienvenido, {{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
                     <img src="https://via.placeholder.com/40" alt="Foto de perfil">
                 </div>
             </nav>
@@ -138,42 +159,21 @@
         <div class="container">
             <h1>Dashboard Docente</h1>
             <section class="tutorias-grid">
+                {% for sala in salas %}
                 <article class="tutoria-card">
-                    <h2 class="tutoria-title">Tutoría de Matemáticas</h2>
-                    <p class="tutoria-materia">Cálculo Diferencial</p>
+                    <h2 class="tutoria-title">{{ sala.nombre_sala }}</h2>
+                    <p class="tutoria-materia">{{ sala.descripcion }}</p>
                     <div class="tutoria-info">
-                        <p>Fecha: 15 de Mayo, 2024</p>
-                        <p>Hora: 14:00 - 15:30</p>
-                        <p>Estudiantes: 5</p>
+                        <p>Horario: {{ sala.horario }}</p>
+                        <p>Ubicación: {{ sala.ubicacion }}</p>
+                        <p>Estudiantes: {{ sala.estudiantes|length }}</p>
                     </div>
+                    <!-- Corregí la URL con el parámetro 'sala_id' -->
+                    <a href="{{ url_for('ver_estudiantes', sala_id=sala.id) }}" class="ver-estudiantes-btn">Ver Estudiantes</a>
                 </article>
-                <article class="tutoria-card">
-                    <h2 class="tutoria-title">Tutoría de Física</h2>
-                    <p class="tutoria-materia">Mecánica Clásica</p>
-                    <div class="tutoria-info">
-                        <p>Fecha: 16 de Mayo, 2024</p>
-                        <p>Hora: 10:00 - 11:30</p>
-                        <p>Estudiantes: 3</p>
-                    </div>
-                </article>
-                <article class="tutoria-card">
-                    <h2 class="tutoria-title">Tutoría de Programación</h2>
-                    <p class="tutoria-materia">Estructuras de Datos</p>
-                    <div class="tutoria-info">
-                        <p>Fecha: 17 de Mayo, 2024</p>
-                        <p>Hora: 16:00 - 17:30</p>
-                        <p>Estudiantes: 4</p>
-                    </div>
-                </article>
-                <article class="tutoria-card">
-                    <h2 class="tutoria-title">Tutoría de Química</h2>
-                    <p class="tutoria-materia">Química Orgánica</p>
-                    <div class="tutoria-info">
-                        <p>Fecha: 18 de Mayo, 2024</p>
-                        <p>Hora: 09:00 - 10:30</p>
-                        <p>Estudiantes: 6</p>
-                    </div>
-                </article>
+                {% else %}
+                <p>No tienes tutorías programadas.</p>
+                {% endfor %}
             </section>
         </div>
     </main>

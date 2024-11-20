@@ -22,7 +22,6 @@
             margin: 0 auto;
             padding: 20px;
         }
-        
         /* Header */
         .header {
             background-color: #3498db;
@@ -45,7 +44,6 @@
             border-radius: 50%;
             margin-right: 10px;
         }
-        
         /* Botón de Cerrar Sesión */
         .logout-btn {
             margin-left: 15px;
@@ -60,7 +58,6 @@
         .logout-btn:hover {
             background-color: #c0392b;
         }
-        
         /* Secciones del dashboard */
         .dashboard-section {
             background-color: #fff;
@@ -73,8 +70,7 @@
             margin-bottom: 15px;
             color: #2c3e50;
         }
-        
-        /* Lista de sesiones */
+        /* Lista de salas */
         .session-list {
             list-style-type: none;
         }
@@ -98,7 +94,6 @@
             font-size: 0.9em;
             color: #7f8c8d;
         }
-        
         /* Botones */
         .btn {
             display: inline-block;
@@ -113,20 +108,24 @@
         .btn:hover {
             background-color: #2980b9;
         }
-        
-        /* Responsive */
-        @media (max-width: 600px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .user-info {
-                margin-top: 10px;
-            }
+        /* Historial de sesiones */
+        .history-list {
+            list-style-type: none;
+        }
+        .history-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-info {
+            color: #7f8c8d;
+            font-size: 0.9em;
         }
     </style>
 </head>
-<body>
+ <body>
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -141,41 +140,102 @@
     </header>
 
     <main class="container">
+        <!-- Sección de Salas Disponibles para Suscribirse -->
         <section class="dashboard-section">
-            <h2>Próximas Sesiones</h2>
-            <ul class="session-list">
-                <li class="session-item">
-                    <div class="session-info">
-                        <div class="session-subject">Matemáticas Avanzadas</div>
-                        <div class="session-time">Hoy, 15:00 - 16:30</div>
-                        <div class="session-tutor">Tutor: Ana García</div>
-                    </div>
-                    <a href="#" class="btn">Unirse</a>
-                </li>
-                <li class="session-item">
-                    <div class="session-info">
-                        <div class="session-subject">Física Cuántica</div>
-                        <div class="session-time">Mañana, 10:00 - 11:30</div>
-                        <div class="session-tutor">Tutor: Carlos Rodríguez</div>
-                    </div>
-                    <a href="#" class="btn">Unirse</a>
-                </li>
-                <li class="session-item">
-                    <div class="session-info">
-                        <div class="session-subject">Literatura Contemporánea</div>
-                        <div class="session-time">23/05, 14:30 - 16:00</div>
-                        <div class="session-tutor">Tutor: María López</div>
-                    </div>
-                    <a href="#" class="btn">Unirse</a>
-                </li>
-            </ul>
+            <h2>Salas Disponibles</h2>
+            {% if salas %}
+                <ul class="session-list">
+                    {% for sala in salas %}
+                        <li class="session-item" id="sala-{{ sala.id }}">
+                            <div class="session-info">
+                                <div class="session-subject">{{ sala.nombre_sala }}</div>
+                                <div class="session-time">Horario: {{ sala.horario }}</div>
+                                <div class="session-tutor">Ubicación: {{ sala.ubicacion }}</div>
+                            </div>
+                            <button class="btn" id="btn-sala-{{ sala.id }}" onclick="cambiarBoton({{ sala.id }})">
+                                {% if sala.id in suscripciones_ids %}
+                                    Eliminar
+                                {% else %}
+                                    Unirse
+                                {% endif %}
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay salas disponibles para unirse.</p>
+            {% endif %}
         </section>
-
+    
+        <!-- Sección de Historial de Suscripciones -->
         <section class="dashboard-section">
-            <h2>Acciones Rápidas</h2>
-            <a href="#" class="btn">Reservar Nueva Sesión</a>
-            <a href="#" class="btn" style="margin-left: 10px;">Ver Historial de Sesiones</a>
+            <h2>Historial de Suscripciones</h2>
+            {% if historial %}
+                <ul class="history-list">
+                    {% for sesion in historial %}
+                        <li class="history-item">
+                            <div class="history-info">
+                                <strong>{{ sesion.nombre_sala }}</strong> - {{ sesion.horario }} | {{ sesion.ubicacion }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No has participado en ninguna sesión aún.</p>
+            {% endif %}
         </section>
     </main>
-</body>
-</html>
+    
+    <script>
+        // Almacenar el estado de los botones en localStorage
+        window.onload = function() {
+            {% for sala in salas %}
+                var salaId = {{ sala.id }};
+                var boton = document.getElementById('btn-sala-' + salaId);
+                var estado = localStorage.getItem('sala-' + salaId);
+                if (estado) {
+                    boton.innerText = estado === 'unirse' ? 'Unirse' : 'Eliminar';
+                    boton.style.backgroundColor = estado === 'unirse' ? '#3498db' : '#e74c3c';
+                }
+            {% endfor %}
+        };
+    
+        function cambiarBoton(salaId) {
+            var boton = document.getElementById('btn-sala-' + salaId);
+            var url = '';
+            var action = '';
+    
+            {% if salas|batch(5)|slice(0, 1) %}
+                url = '/suscribirse_sala/' + salaId;
+                action = 'unirse';
+            {% elif salas|batch(5)|slice(0, 1) %}
+                url = '/eliminar_suscripcion/' + salaId;
+                action = 'eliminar';
+            {% endif %}
+    
+            // Hacer la solicitud AJAX
+            fetch(url, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Respuesta del servidor:", data); // Verificar la respuesta
+                if (data.status === 'success') {
+                    if (action === 'unirse') {
+                        console.log("Cambiando a 'Eliminar'"); // Confirmación de cambio
+                        boton.innerText = 'Eliminar';
+                        boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
+                        localStorage.setItem('sala-' + salaId, 'eliminar');
+                    } else if (action === 'eliminar') {
+                        console.log("Cambiando a 'Unirse'"); // Confirmación de cambio
+                        boton.innerText = 'Unirse';
+                        boton.style.backgroundColor = '#3498db'; // Azul para unirse
+                        localStorage.setItem('sala-' + salaId, 'unirse');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>

@@ -3,64 +3,48 @@
 
 {% block content %}
 
-<!-- Incluir el header antes del formulario -->
 {% include 'components/header.html' %}
 
 <div class="sala">
     <div class="container">
         <h1>Crear Nueva Sala de Tutoría</h1>
-        <form id="formulario-sala">
+        <!-- Formulario tradicional -->
+        <form action="/crear_sala" method="POST">
             <div class="form-group">
                 <label for="nombre-sala">Nombre de la Sala:</label>
-                <input type="text" id="nombre-sala" name="nombre-sala" required>
+                <input type="text" id="nombre-sala" name="nombre-sala" maxlength="100" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <input type="text" id="descripcion" name="descripcion" required>
+                <textarea id="descripcion" name="descripcion" maxlength="255" rows="3" required></textarea>
             </div>
-
+        
             <div class="form-group">
                 <label for="horario">Horario de Disponibilidad:</label>
                 <input type="text" id="horario" name="horario" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="ubicacion">Ubicación:</label>
-                <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Edificio A, Piso 2, Sala 201" required>
+                <input type="text" id="ubicacion" name="ubicacion" maxlength="255" placeholder="Ej: Edificio A, Piso 2, Sala 201" required>
             </div>
 
+            <div class="form-group">
+                <label for="docente">Docente Asignado:</label>
+                <select id="docente" name="docente" required>
+                    <option value="">Seleccionar Docente</option>
+                    {% for docente in docentes %}
+                    <option value="{{ docente.id }}">{{ docente.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
             <button type="submit" class="btn-submit">Crear Sala</button>
         </form>
+        
+
     </div>
 </div>
-
-<script>
-    // Agregar equipamiento
-    document.getElementById('agregar-recurso').addEventListener('click', function() {
-        const lista = document.getElementById('recursos-lista');
-        const nuevoRecurso = document.createElement('li');
-        nuevoRecurso.className = 'recurso-item';
-        nuevoRecurso.innerHTML = `
-            <input type="text" name="equipamiento[]" placeholder="Ej: Microscopio, Tableta gráfica">
-            <button type="button" class="btn-eliminar">Eliminar</button>
-        `;
-        lista.appendChild(nuevoRecurso);
-    });
-
-    // Eliminar equipamiento
-    document.getElementById('recursos-lista').addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-eliminar')) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    // Manejar envío del formulario
-    document.getElementById('formulario-sala').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Aquí iría la lógica para enviar los datos del formulario al servidor
-        alert('Formulario enviado con éxito! La sala ha sido creada.');
-    });
-</script>
 
 {% endblock %}
