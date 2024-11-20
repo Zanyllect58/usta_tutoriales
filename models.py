@@ -1,9 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
+from flask import Flask
 
-db = SQLAlchemy()
-bcrypt = Bcrypt()
+
+app = Flask(__name__)
+
+# Configura la conexión a la base de datos
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/users_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 class User(UserMixin, db.Model):  # Asegúrate de heredar de UserMixin
     id = db.Column(db.Integer, primary_key=True)
@@ -17,13 +25,12 @@ class User(UserMixin, db.Model):  # Asegúrate de heredar de UserMixin
 
     # Relación con las salas asignadas (si es docente)
     salas_asignadas = db.relationship('Sala', back_populates='docente', foreign_keys='Sala.docente_id')
-    
+
     # Relación con las suscripciones
     suscripciones = db.relationship('Suscripcion', back_populates='user', cascade='all, delete-orphan')
 
-    # Relación con las salas inscritas
+        
     salas_inscritas = db.relationship('Sala', secondary='suscripciones', back_populates='estudiantes')
-
 
     # Sobreescribir el método is_active para que siempre devuelva True
     @property
@@ -39,7 +46,6 @@ class User(UserMixin, db.Model):  # Asegúrate de heredar de UserMixin
         return bcrypt.check_password_hash(self.password, password)
 
 
-
 class Sala(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_sala = db.Column(db.String(100), nullable=False)
@@ -51,7 +57,7 @@ class Sala(db.Model):
     docente_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     docente = db.relationship('User', back_populates='salas_asignadas')
 
-    # Relación con los estudiantes
+    # Relación con los estudiantes (bidirectional through Suscripcion)
     estudiantes = db.relationship('User', secondary='suscripciones', back_populates='salas_inscritas')
 
     # Relación con las suscripciones
@@ -64,9 +70,10 @@ class Suscripcion(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)
 
-    # Relaciones
+    # Relaciones (establecidas automáticamente por SQLAlchemy)
     user = db.relationship('User', back_populates='suscripciones')
     sala = db.relationship('Sala', back_populates='suscripciones')
 
-
-
+# Create all tables based on model definitions
+with app.app_context():
+    db.create_all()
