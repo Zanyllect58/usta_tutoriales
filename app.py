@@ -273,6 +273,52 @@ def eliminar_usuario(user_id):
     
     return redirect(url_for('users'))
 
+
+# Agregar Usuario (solo admin)
+
+@app.route('/agregar_usuario', methods=['GET', 'POST'])
+@login_required
+def agregar_usuario():
+    if current_user.role != 'admin':
+        flash('No tienes permisos para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio'))
+    
+    if request.method == 'POST':
+        user_data = {
+            'username': request.form['nombre'],
+            'email': request.form['email'],
+            'password': bcrypt.generate_password_hash(request.form['password']).decode('utf-8'),
+            'role': request.form['role'], 
+            'identificacion': request.form['confirm-number'],
+            'career': request.form['carrera'],
+            'semester': request.form['semestre']
+        }
+
+        if User.query.filter_by(email=user_data['email']).first():
+            flash('El correo ya está en uso. Elige otro.', 'danger')
+            return render_template('admin/dashboard_admin_usuarios_agregar_usuarios.html')  
+
+        if User.query.filter_by(identificacion=user_data['identificacion']).first():
+            flash('La identificación ya está en uso. Elige otra.', 'danger')
+            return render_template('admin/dashboard_admin_usuarios_agregar_usuarios.html')  
+
+        try:
+            # Crear el nuevo usuario
+            new_user = User(**user_data)
+            db.session.add(new_user)
+            db.session.commit()
+
+            flash("Usuario agregado correctamente.", "success")
+            return redirect(url_for('users'))  # Redirigir al inicio o página correspondiente después del registro
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error al agregar el estudiante: {str(e)}", "danger")
+            return render_template('admin/dashboard_admin_usuarios_agregar_usuarios.html')  # Redirigir a la misma página en caso de error
+
+    return render_template('admin/dashboard_admin_usuarios_agregar_usuarios.html')
+
+
+
 # =============================
 # Rutas de Gestión de Tutorías
 # =============================

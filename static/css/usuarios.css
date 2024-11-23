@@ -181,8 +181,11 @@ tr:hover {
 }
 
 .btn-primary {
+    padding: 10px 10px;
+    display: flexbox;
     background-color: #3498db;
     color: #fff;
+    
 }
 
 .btn-primary:hover {

@@ -35,6 +35,8 @@
 /* Estilo para los campos de texto (input y select) */
 .editar-usuario input[type="text"],
 .editar-usuario input[type="email"],
+.editar-usuario input[type="password"],
+.editar-usuario input[type="number"],
 .editar-usuario select {
     width: 100%; /* Los campos ocupan el 100% del ancho */
     padding: 10px;
