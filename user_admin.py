@@ -34,7 +34,7 @@ def create_admin_user():
     email = 'admon@admon.com'
 
     # Verificar si el usuario ya existe
-    existing_user = User.query.filter((User.username == username) | (User.identificacion == identificacion)).first()
+    existing_user = User.query.filter((User .username == username) | (User .identificacion == identificacion)).first()
 
     if existing_user:
         print('No se puede crear el usuario: ya existe un usuario con el mismo username o identificacion.')
@@ -50,6 +50,60 @@ def create_admin_user():
         db.session.commit()
         print('Usuario administrador creado con éxito.')
 
-# Llama a la función para crear el usuario
+# Función para crear un usuario docente
+def create_teacher_user():
+    username = 'teacher1'
+    password = '1234'  # Cambia por la contraseña deseada
+    role = 'teacher'
+    identificacion = '1234'  # Un identificador único
+    email = 'teacher1@school.com'
+
+    # Verificar si el usuario ya existe
+    existing_user = User.query.filter((User .username == username) | (User .identificacion == identificacion)).first()
+
+    if existing_user:
+        print('No se puede crear el usuario docente: ya existe un usuario con el mismo username o identificacion.')
+    else:
+        # Encriptar la contraseña usando Flask-Bcrypt
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+        # Crear el usuario
+        teacher_user = User(username=username, password=hashed_password, role=role, identificacion=identificacion, email=email)
+
+        # Agregar y guardar en la base de datos
+        db.session.add(teacher_user)
+        db.session.commit()
+        print('Usuario docente creado con éxito.')
+
+# Función para crear un usuario estudiante
+def create_student_user():
+    username = 'student1'
+    password = '1234'  # Cambia por la contraseña deseada
+    role = 'student'
+    identificacion = '5678'  # Un identificador único
+    email = 'student1@school.com'
+    career = 'Computer Science'
+    semester = '1'
+
+    # Verificar si el usuario ya existe
+    existing_user = User.query.filter((User .username == username) | (User .identificacion == identificacion)).first()
+
+    if existing_user:
+        print('No se puede crear el usuario estudiante: ya existe un usuario con el mismo username o identificacion.')
+    else:
+        # Encriptar la contraseña usando Flask-Bcrypt
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+        # Crear el usuario
+        student_user = User(username=username, password=hashed_password, role=role, identificacion=identificacion, email=email, career=career, semester=semester)
+
+        # Agregar y guardar en la base de datos
+        db.session.add(student_user)
+        db.session.commit()
+        print('Usuario estudiante creado con éxito.')
+
+# Llama a las funciones para crear los usuarios
 with app.app_context():
     create_admin_user()
+    create_teacher_user()
+    create_student_user()

@@ -125,7 +125,7 @@
         }
     </style>
 </head>
- <body>
+<body>
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -168,22 +168,24 @@
         </section>
     
         <!-- Sección de Historial de Suscripciones -->
-        <section class="dashboard-section">
-            <h2>Historial de Suscripciones</h2>
-            {% if historial %}
-                <ul class="history-list">
-                    {% for sesion in historial %}
-                        <li class="history-item">
-                            <div class="history-info">
-                                <strong>{{ sesion.nombre_sala }}</strong> - {{ sesion.horario }} | {{ sesion.ubicacion }}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No has participado en ninguna sesión aún.</p>
-            {% endif %}
-        </section>
+   <!-- Sección de Historial de Suscripciones -->
+<section class="dashboard-section">
+    <h2>Historial de Suscripciones</h2>
+    {% if historial %}
+        <ul class="history-list">
+            {% for sesion in historial %}
+                <li class="history-item">
+                    <div class="history-info">
+                        <strong>{{ sesion.nombre_sala }}</strong> - {{ sesion.horario }} | {{ sesion.ubicacion }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No has participado en ninguna sesión aún.</p>
+    {% endif %}
+</section>
+
     </main>
     
     <script>
@@ -193,25 +195,38 @@
                 var salaId = {{ sala.id }};
                 var boton = document.getElementById('btn-sala-' + salaId);
                 var estado = localStorage.getItem('sala-' + salaId);
+    
+                // Si hay estado en localStorage, actualizamos el botón con base en ese estado
                 if (estado) {
                     boton.innerText = estado === 'unirse' ? 'Unirse' : 'Eliminar';
                     boton.style.backgroundColor = estado === 'unirse' ? '#3498db' : '#e74c3c';
+                } else {
+                    // Si no hay estado en localStorage, chequeamos si el usuario ya está suscrito
+                    {% if sala.id in suscripciones_ids %}
+                        boton.innerText = 'Eliminar';
+                        boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
+                    {% else %}
+                        boton.innerText = 'Unirse';
+                        boton.style.backgroundColor = '#3498db'; // Azul para unirse
+                    {% endif %}
                 }
             {% endfor %}
         };
     
+        // Función para cambiar el estado del botón
         function cambiarBoton(salaId) {
             var boton = document.getElementById('btn-sala-' + salaId);
             var url = '';
             var action = '';
     
-            {% if salas|batch(5)|slice(0, 1) %}
+            // Verificamos si el usuario está intentando unirse o eliminar la suscripción
+            if (boton.innerText === 'Unirse') {
                 url = '/suscribirse_sala/' + salaId;
                 action = 'unirse';
-            {% elif salas|batch(5)|slice(0, 1) %}
+            } else if (boton.innerText === 'Eliminar') {
                 url = '/eliminar_suscripcion/' + salaId;
                 action = 'eliminar';
-            {% endif %}
+            }
     
             // Hacer la solicitud AJAX
             fetch(url, {
@@ -219,19 +234,18 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log("Respuesta del servidor:", data); // Verificar la respuesta
                 if (data.status === 'success') {
                     if (action === 'unirse') {
-                        console.log("Cambiando a 'Eliminar'"); // Confirmación de cambio
                         boton.innerText = 'Eliminar';
                         boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
                         localStorage.setItem('sala-' + salaId, 'eliminar');
                     } else if (action === 'eliminar') {
-                        console.log("Cambiando a 'Unirse'"); // Confirmación de cambio
                         boton.innerText = 'Unirse';
                         boton.style.backgroundColor = '#3498db'; // Azul para unirse
                         localStorage.setItem('sala-' + salaId, 'unirse');
                     }
+                } else {
+                    console.log('Error: ', data.message); // Si hay error, mostramos el mensaje
                 }
             })
             .catch(error => {
@@ -239,3 +253,6 @@
             });
         }
     </script>
+    
+</body>
+</html>

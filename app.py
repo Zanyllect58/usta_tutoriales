@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify 
 from flask_login import login_required, current_user, LoginManager, login_user, logout_user
 from config import Config
-from models import User, Suscripcion, Sala , db, bcrypt
+from models import User, Suscripcion, Sala, db, bcrypt
+from datetime import datetime
 
 # Inicialización de la aplicación Flask
 app = Flask(__name__, template_folder='templates')
@@ -22,6 +23,8 @@ def load_user(user_id):
 # Rutas de Autenticación
 # =============================
 
+from flask import session
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -32,6 +35,9 @@ def login():
             login_user(user)
             flash('Inicio de sesión exitoso.', 'success')
 
+            # Guardar el nombre de usuario en la sesión
+            session['user_name'] = user.username  # Aquí se guarda el nombre del usuario en la sesión
+
             # Redirigir según el rol del usuario
             if user.role == 'admin':
                 return redirect(url_for('dashboard_admin'))
@@ -41,8 +47,9 @@ def login():
                 return redirect(url_for('dashboard_usuarios'))
         else:
             flash('Credenciales incorrectas. Intenta nuevamente.', 'danger')
-    
+
     return render_template('login.html')
+
 
 @app.route('/logout')
 @login_required
@@ -52,39 +59,105 @@ def logout():
     return redirect(url_for('inicio'))
 
 # =============================
-# Rutas de Dashboard
+# Rutas de Gestión de Salas
 # =============================
 
-# Dashboard para Administradores
-@app.route('/dashboard_admin')
+@app.route('/crear_sala', methods=['GET', 'POST'])
 @login_required
-def dashboard_admin():
-    if current_user.role != 'admin':  # Verificar si es admin
+def crear_sala():
+    if current_user.role != 'admin':
+        flash('No tienes permisos para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio'))
+
+    docentes = User.query.filter_by(role='teacher').all()
+
+    if request.method == 'POST':
+        nombre = request.form.get('nombre-sala')
+        descripcion = request.form.get('descripcion')
+        horario = request.form.get('horario')
+        ubicacion = request.form.get('ubicacion')
+        docente_id = request.form.get('docente')
+
+        if not all([nombre, descripcion, horario, ubicacion, docente_id]):
+            flash('Todos los campos son obligatorios.', 'danger')
+            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes)
+
+        try:
+            nueva_sala = Sala(
+                nombre=nombre,
+                descripcion=descripcion,
+                horario=horario,
+                ubicacion=ubicacion,
+                docente_id=docente_id
+            )
+            db.session.add(nueva_sala)
+            db.session.commit()
+            flash('Tutoría creada correctamente.', 'success')
+            return redirect(url_for('listar_tutorias'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error al crear la tutoría: {str(e)}', 'danger')
+
+    return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes)
+
+# Listar todas las tutorías (solo admin)
+@app.route('/dashboard_admin_tutorias', methods=['GET'])
+@login_required
+def listar_tutorias():
+    if current_user.role != 'admin':
         flash('No tienes permisos para acceder a esta página.', 'danger')
         return redirect(url_for('inicio'))
-    return render_template('admin/dashboard_admin.html')
 
-# Dashboard para Estudiantes
-@app.route('/dashboard_usuarios')
-@login_required
-def dashboard_usuarios():
-    user = current_user
-    salas = Sala.query.all()
-    suscripciones = user.suscripciones
-    suscripciones_ids = [sala.id for sala in suscripciones]
-    return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids)
+    tutorias = Sala.query.all()
+    return render_template('admin/dashboard_admin_tutorias.html', tutorias=tutorias)
 
-# Dashboard para Docentes
-@app.route('/dashboard_docentes')
+# Editar una tutoría (solo admin)
+@app.route('/editar_sala/<int:sala_id>', methods=['GET', 'POST'])
 @login_required
-def dashboard_docentes():
-    if current_user.role != 'teacher':  # Verificar si es docente
-        flash('No tienes permisos para acceder a esta página.', 'danger')
+def editar_tutoria(sala_id):
+    if current_user.role != 'admin':
+        flash('No tienes permisos para realizar esta acción.', 'danger')
         return redirect(url_for('inicio'))
-    
-    # Obtener las salas asignadas al docente
-    salas_docente = Sala.query.filter_by(docente_id=current_user.id).all()
-    return render_template('docentes/dashboard_docentes.html', salas=salas_docente)
+
+    sala = Sala.query.get_or_404(sala_id)
+    docentes = User.query.filter_by(role='teacher').all()
+
+    if request.method == 'POST':
+        sala.nombre = request.form['nombre']
+        sala.descripcion = request.form['descripcion']
+        sala.horario = request.form['horario']
+        sala.ubicacion = request.form['ubicacion']
+        sala.docente_id = request.form['docente_id']
+
+        try:
+            db.session.commit()
+            flash('Tutoría actualizada correctamente.', 'success')
+            return redirect(url_for('listar_tutorias'))
+        except Exception as e:
+            db.session .rollback()
+            flash(f'Error al actualizar la tutoría: {str(e)}', 'danger')
+
+    return render_template('admin/dashboard_admin_editar_sala.html', sala=sala, docentes=docentes)
+
+# Eliminar una tutoría (solo admin)
+@app.route('/eliminar_sala/<int:sala_id>', methods=['POST'])
+@login_required
+def eliminar_tutoria(sala_id):
+    if current_user.role != 'admin':
+        flash('No tienes permisos para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio'))
+
+    sala = Sala.query.get_or_404(sala_id)
+
+    try:
+        db.session.delete(sala)
+        db.session.commit()
+        flash('Tutoría eliminada correctamente.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al eliminar la tutoría: {str(e)}', 'danger')
+
+    return redirect(url_for('listar_tutorias'))
 
 # =============================
 # Rutas de Gestión de Usuarios (Admin)
@@ -105,10 +178,10 @@ def users():
 @app.route('/registrar', methods=['GET', 'POST'])
 @login_required
 def crear_usuario():
-    if current_user.role != 'admin':  # Asegurar que solo el admin puede crear usuarios
+    if current_user.role != 'admin':
         flash('No tienes permisos para realizar esta acción.', 'danger')
         return redirect(url_for('inicio'))
-    
+
     if request.method == 'POST':
         user_data = {
             'username': request.form['nombre'],
@@ -135,7 +208,7 @@ def crear_usuario():
             flash("Estudiante agregado correctamente.", "success")
             return redirect(url_for('crear_usuario'))
         except Exception as e:
-            db.session.rollback()  # Si ocurre un error, revertimos la transacción
+            db.session.rollback()
             flash(f"Error al agregar el estudiante: {str(e)}", "danger")
             return redirect(url_for('crear_usuario'))
 
@@ -157,7 +230,7 @@ def editar_usuario(user_id):
         user.career = request.form['career']
         user.semester = request.form['semester']
 
-        if User.query.filter((User.email == user.email) & (User.id != user_id)).first():
+        if User.query.filter((User .email == user.email) & (User .id != user_id)).first():
             flash('El correo ya está en uso. Elige otro.', 'danger')
             return redirect(url_for('editar_usuario', user_id=user_id))
 
@@ -195,59 +268,60 @@ def eliminar_usuario(user_id):
     return redirect(url_for('users'))
 
 # =============================
-# Rutas de Gestión de Salas
+# Rutas de Gestión de Tutorías
 # =============================
 
-# Crear Sala (solo admin)
-@app.route('/crear_sala', methods=['GET', 'POST'])
+# Dashboard para Administradores
+@app.route('/dashboard_admin')
 @login_required
-def crear_sala():
+def dashboard_admin():
     if current_user.role != 'admin':
-        return jsonify({'error': 'No tienes permisos para crear una sala.'}), 403
+        flash('No tienes permisos para acceder a esta página.', 'danger')
+        return redirect(url_for('inicio'))
 
-    docentes = User.query.filter_by(role='teacher').all()
+    total_usuarios = User.query.count()
+    inicio_mes = datetime.now().replace(day=1)
+    total_salas_mes = Sala.query.filter(Sala.fecha >= inicio_mes).count()
 
-    if request.method == 'POST':
-        nombre_sala = request.form.get('nombre-sala')
-        descripcion = request.form.get('descripcion')
-        horario = request.form.get('horario')
-        ubicacion = request.form.get('ubicacion')
-        docente_id = request.form.get('docente')
+    usuarios = User.query.all()
+    tutorias = Sala.query.all()
 
-        if not nombre_sala:
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="El nombre de la sala es obligatorio.", mensaje_color="red")
-        if not descripcion:
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="La descripción es obligatoria.", mensaje_color="red")
-        if not horario:
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="El horario es obligatorio.", mensaje_color="red")
-        if not ubicacion:
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="La ubicación es obligatoria.", mensaje_color="red")
-        if not docente_id:
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="Debes seleccionar un docente para la sala.", mensaje_color="red")
+    return render_template(
+        'admin/dashboard_admin.html',
+        total_usuarios=total_usuarios,
+        total_salas_mes=total_salas_mes,
+        usuarios=usuarios,
+        tutorias=tutorias
+    )
 
-        docente = User.query.get(docente_id)
-        if not docente or docente.role != 'teacher':
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="El docente seleccionado no es válido.", mensaje_color="red")
+# Dashboard para Estudiantes
+@app.route('/dashboard_usuarios')
+@login_required
+def dashboard_usuarios():
+    user = current_user
+    salas = Sala.query.all()
+    suscripciones = user.suscripciones
+    suscripciones_ids = [sala.id for sala in suscripciones]
+    return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids)
 
-        try:
-            nueva_sala = Sala(nombre=nombre_sala, descripcion=descripcion, horario=horario, ubicacion=ubicacion, docente_id=docente_id)
-            db.session.add(nueva_sala)
-            db.session.commit()
-            flash("Sala creada correctamente.", "success")
-        except Exception as e:
-            db.session.rollback()
-            flash(f"Error al crear la sala: {str(e)}", "danger")
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes, mensaje="Error al crear la sala.", mensaje_color="red")
+# Dashboard para Docentes
+def dashboard_usuarios():
+    user = current_user
+    salas = Sala.query.all()
+    suscripciones = user.suscripciones
+    suscripciones_ids = [sala.id for sala in suscripciones]
 
-    return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes)
+    # Obtener historial de sesiones (salas a las que está suscrito)
+    historial = []
+    for suscripcion in suscripciones:
+        historial.append(suscripcion.sala)  # Accedemos a la sala relacionada con la suscripción
 
-
+    return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids, historial=historial)
 
 # =============================
 # Rutas de Gestión de Suscripciones
 # =============================
 
-# Suscribirse a una Sala
 @app.route('/suscribirse_sala/<int:sala_id>', methods=['POST'])
 @login_required
 def suscribirse_sala(sala_id):
@@ -255,15 +329,16 @@ def suscribirse_sala(sala_id):
     if not sala:
         return jsonify({"status": "error", "message": "Sala no encontrada"}), 404
 
-    if any(s.id == sala_id for s in current_user.suscripciones):
+    # Verificar si ya está suscrito
+    if any(s.id == sala_id for s in current_user.salas_inscritas):
         return jsonify({"status": "error", "message": "Ya estás suscrito a esta sala"}), 400
 
+    # Crear nueva suscripción
     nueva_suscripcion = Suscripcion(user_id=current_user.id, sala_id=sala.id)
     db.session.add(nueva_suscripcion)
     db.session.commit()
     return jsonify({"status": "success", "action": "unirse"})
 
-# Eliminar Suscripción de una Sala
 @app.route('/eliminar_suscripcion/<int:sala_id>', methods=['POST'])
 @login_required
 def eliminar_suscripcion(sala_id):
@@ -271,6 +346,7 @@ def eliminar_suscripcion(sala_id):
     if not sala:
         return jsonify({"status": "error", "message": "Sala no encontrada"}), 404
 
+    # Buscar suscripción
     suscripcion = Suscripcion.query.filter_by(user_id=current_user.id, sala_id=sala_id).first()
     if not suscripcion:
         return jsonify({"status": "error", "message": "No estás suscrito a esta sala"}), 400
@@ -280,28 +356,21 @@ def eliminar_suscripcion(sala_id):
     return jsonify({"status": "success", "action": "eliminar"})
 
 
-
 # =============================
-# Rutas de Gestión de Docentes
+# Rutas de Gestión de Estudiantes
 # =============================
-
 
 @app.route('/ver_estudiantes/<int:sala_id>')
 def ver_estudiantes(sala_id):
-    # Lógica de la vista
     return render_template('ver_estudiantes.html', sala_id=sala_id)
 
 # =============================
 # Rutas de Gestión de Principales
 # =============================
 
-
 @app.route('/')
-def inicio ():
-    # Lógica de la vista
+def inicio():
     return render_template('index.html')
-
-
 
 # =============================
 # Ejecución de la Aplicación
@@ -309,4 +378,3 @@ def inicio ():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
