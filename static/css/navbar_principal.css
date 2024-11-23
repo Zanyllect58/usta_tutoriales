@@ -85,20 +85,30 @@ main {
 
 /* Hero section */
 .hero {
-  background-color: #f4f9fd;
-  padding: 4rem 0;
+  background-image: url("./../../static/img/fondo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: rgb(255, 255, 255);
+  height: 50vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
   text-align: center;
+  padding: 0 20px; 
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 3rem; 
+  margin-bottom: 1rem; 
+  
 }
 
 .hero p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
+  font-size: 1.5rem; 
+  margin-bottom: 2rem; 
+  
+} 
 
 .cta-button {
   display: inline-block;
@@ -112,7 +122,7 @@ main {
 }
 
 .cta-button:hover {
-  background-color: #0169ab;
+  background-color: #01478d;
 }
 
 /* Features section */
@@ -148,10 +158,12 @@ main {
 /* Testimonials section */
 .testimonials {
   background-color: #6cbcc7;
+  height: 40vh;
   color: #fff;
-  padding: 4rem 0;
+  padding: 2rem 0; 
   text-align: center;
   border-top: 4px solid #c8336e !important;
+  margin: 0; 
 }
 
 .testimonials h2 {
@@ -160,26 +172,57 @@ main {
 
 .testimonial-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 20px; 
+  justify-items: center; 
+  padding: 0 20px;
 }
 
 .testimonial-card {
-  background-color: #fff;
-  color: #333;
-  border-radius: 5px;
-  padding: 1.5rem;
+  padding: 15px; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: none !important;
+  outline: none !important;
+  box-sizing: border-box;
+  width: 100%; 
+  max-width: 350px;
+  margin: 0 auto; 
 }
 
 .testimonial-card p {
-  color: black;
-  cursor: pointer;
-  outline: invert;
+  margin: 0;
 }
 
-.testimonial-card .author {
-  font-weight: bold;
+.btn {
+  margin-top: auto; 
+  padding: 10px 20px;
+  background-color: #01478d;
+  color: white;
+  border: none !important; 
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  width: 100%;
+  outline: none !important;
 }
+
+.btn:hover {
+  background-color: #0056b3; 
+}
+.testimonial-img {
+  width: 100%; 
+  height: 200px; 
+  object-fit: cover; 
+  border-radius: 5px;
+  margin-bottom: 10px; 
+}
+
+
 
 /* Footer */
 footer {
