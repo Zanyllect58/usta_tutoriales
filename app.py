@@ -58,6 +58,10 @@ def logout():
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio'))
 
+
+
+
+
 # =============================
 # Rutas de Gestión de Salas
 # =============================
@@ -176,43 +180,45 @@ def users():
 
 # Crear Usuario (solo admin)
 @app.route('/registrar', methods=['GET', 'POST'])
-@login_required
 def crear_usuario():
-    if current_user.role != 'admin':
-        flash('No tienes permisos para realizar esta acción.', 'danger')
-        return redirect(url_for('inicio'))
-
     if request.method == 'POST':
+        # Recoger los datos del formulario
         user_data = {
             'username': request.form['nombre'],
             'email': request.form['email'],
             'password': bcrypt.generate_password_hash(request.form['password']).decode('utf-8'),
-            'role': 'student',
+            'role': 'student',  # Aseguramos que el rol sea siempre "student"
             'identificacion': request.form['confirm-number'],
             'career': request.form['carrera'],
             'semester': request.form['semestre']
         }
 
+        # Verificar si el correo ya existe en la base de datos
         if User.query.filter_by(email=user_data['email']).first():
             flash('El correo ya está en uso. Elige otro.', 'danger')
-            return redirect(url_for('crear_usuario'))
+            return render_template('registrar.html')  # Redirigir a la misma página si el correo ya existe
 
+        # Verificar si la identificación ya está en uso
         if User.query.filter_by(identificacion=user_data['identificacion']).first():
             flash('La identificación ya está en uso. Elige otra.', 'danger')
-            return redirect(url_for('crear_usuario'))
+            return render_template('registrar.html')  # Redirigir a la misma página si la identificación ya existe
 
         try:
+            # Crear el nuevo usuario
             new_user = User(**user_data)
             db.session.add(new_user)
             db.session.commit()
+
             flash("Estudiante agregado correctamente.", "success")
-            return redirect(url_for('crear_usuario'))
+            return redirect(url_for('inicio'))  # Redirigir al inicio o página correspondiente después del registro
         except Exception as e:
             db.session.rollback()
             flash(f"Error al agregar el estudiante: {str(e)}", "danger")
-            return redirect(url_for('crear_usuario'))
+            return render_template('registrar.html')  # Redirigir a la misma página en caso de error
 
+    # Si es un GET, renderizamos el formulario de registro
     return render_template('registrar.html')
+
 
 # Editar Usuario (solo admin)
 @app.route('/editar_usuario/<int:user_id>', methods=['GET', 'POST'])
@@ -359,6 +365,20 @@ def eliminar_suscripcion(sala_id):
 # =============================
 # Rutas de Gestión de Estudiantes
 # =============================
+
+
+# Dashboard para Docentes
+@app.route('/dashboard_docentes')
+@login_required
+def dashboard_docentes():
+    if current_user.role != 'teacher':
+        flash('No tienes permisos para acceder a esta página.', 'danger')
+        return redirect(url_for('inicio'))
+
+    # Aquí puedes agregar cualquier lógica para que los docentes vean sus salas o tutorías asignadas
+    salas = Sala.query.filter_by(docente_id=current_user.id).all()  # Obtener las tutorías asignadas al docente
+    return render_template('docentes/dashboard_docentes.html', salas=salas)
+
 
 @app.route('/ver_estudiantes/<int:sala_id>')
 def ver_estudiantes(sala_id):

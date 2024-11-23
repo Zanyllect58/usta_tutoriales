@@ -69,6 +69,21 @@
             border-radius: 50%;
         }
 
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
         main {
             padding: 2rem 0;
         }
@@ -150,6 +165,8 @@
                 <div class="user-menu">
                     <span>Bienvenido, {{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
                     <img src="https://via.placeholder.com/40" alt="Foto de perfil">
+                    <!-- Botón de salida -->
+                    <a href="{{ url_for('logout') }}" class="logout-btn">Salir</a>
                 </div>
             </nav>
         </div>
@@ -168,7 +185,6 @@
                         <p>Ubicación: {{ sala.ubicacion }}</p>
                         <p>Estudiantes: {{ sala.estudiantes|length }}</p>
                     </div>
-                    <!-- Corregí la URL con el parámetro 'sala_id' -->
                     <a href="{{ url_for('ver_estudiantes', sala_id=sala.id) }}" class="ver-estudiantes-btn">Ver Estudiantes</a>
                 </article>
                 {% else %}
