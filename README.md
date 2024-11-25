@@ -17,6 +17,8 @@ Antes de comenzar, asegúrate de tener instalados los siguientes elementos:
 
 ## Estructura del Proyecto
 
+```bash
+
 ├── app.py                 # Punto de entrada de la aplicación
 ├── config.py              # Configuración de la aplicación (por ejemplo, base de datos, claves secretas)
 ├── models.py              # Modelos de base de datos con SQLAlchemy
@@ -41,7 +43,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes elementos:
 │   ├── css/               # Archivos CSS para estilos personalizados
 │   └── img/               # Imágenes utilizadas en el sitio
 
-
+````
 # **Estructura de Endpoints de la Aplicación Flask**
 
 
