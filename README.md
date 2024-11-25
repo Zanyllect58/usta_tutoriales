@@ -65,7 +65,7 @@ Estas rutas son esenciales para la gestión de la sesión de los usuarios.
   `Método`: `GET, POST`  
   Permite crear nuevos usuarios en el sistema.
 
-## 2. Rutas de Gestión de Salas (Para Administradores y Docentes)
+## 2. Rutas de Gestión de Salas (Para Administradores )
 
 Estas rutas permiten la creación, edición, eliminación y visualización de salas de tutoría.
 
@@ -105,7 +105,7 @@ Estas rutas permiten gestionar los usuarios del sistema, incluyendo la creación
   `Método`: `GET, POST`  
   Permite agregar usuarios al sistema de forma manual.
 
-## 4. Rutas de Gestión de Suscripciones (Para Estudiantes y Docentes)
+## 4. Rutas de Gestión de Suscripciones (Para Estudiantes)
 
 Permiten a los usuarios suscribirse y eliminar suscripciones de las salas.
 
