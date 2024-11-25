@@ -1,6 +1,7 @@
-# Sistema de Gestión de Usuarios y Salas
+# Sistema de Gestión 
 
-Este proyecto implementa un sistema de gestión de usuarios y salas utilizando **Flask** y **SQLAlchemy**. El sistema permite manejar usuarios con diferentes roles (administradores, docentes y estudiantes), salas de tutoría, y suscripciones entre usuarios y salas.
+
+Este proyecto implementa un sistema de gestión  utilizando **Flask** y **SQLAlchemy**. El sistema permite manejar usuarios con diferentes roles (administradores, docentes y estudiantes), salas de tutoría, y suscripciones entre usuarios y salas.
 
 ## Requisitos
 
