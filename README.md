@@ -154,6 +154,9 @@ Rutas generales de la aplicación que no requieren que el usuario esté autentic
 
 5. pip install -r requirements.txt
    
-6. python app.py
+6. pip show mysql-connector-python
+
+   
+7. python app.py
 
 

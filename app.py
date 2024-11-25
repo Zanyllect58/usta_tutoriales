@@ -4,6 +4,7 @@ from config import Config
 from models import User, Suscripcion, Sala, db, bcrypt
 from datetime import datetime
 
+
 # Inicialización de la aplicación Flask
 app = Flask(__name__, template_folder='templates')
 app.config.from_object(Config)
@@ -23,7 +24,7 @@ def load_user(user_id):
 # Rutas de Autenticación
 # =============================
 
-from flask import session
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
