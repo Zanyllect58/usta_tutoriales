@@ -43,7 +43,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes elementos:
 │   ├── css/               # Archivos CSS para estilos personalizados
 │   └── img/               # Imágenes utilizadas en el sitio
 
-````
+```
 # **Estructura de Endpoints de la Aplicación Flask**
 
 
@@ -153,4 +153,7 @@ Rutas generales de la aplicación que no requieren que el usuario esté autentic
 4. venv\Scripts\activate
 
 5. pip install -r requirements.txt
+   
+6. python app.py
+
 
