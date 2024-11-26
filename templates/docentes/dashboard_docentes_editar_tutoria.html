@@ -1,27 +1,15 @@
 <!-- register.html -->
-
+{% extends 'components/navbar_docentes.html' %}
 
 {% block head %}
     <!-- Cargar el archivo CSS solo en la página de registro -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_principal.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+   
+
 {% endblock %}
 
 {% block content %}
 
-<header>
-    <div class="container">
-        <nav>
-            <div class="logo">TutorU</div>
-            <div class="user-menu">
-                <span>{{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
-                <!-- Botón de salida -->
-                
-            </div>
-        </nav>
-    </div>
-</header>
+
 
 <div class="register-container">
     <h1>Editar Tutoria</h1>

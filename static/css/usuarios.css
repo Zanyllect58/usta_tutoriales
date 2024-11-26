@@ -21,8 +21,7 @@ body {
     overflow-x: hidden;
 }
 .container {
-    display: flex;
-    min-height: 100vh;
+
     flex-wrap: wrap; /* Asegura que no haya desbordamientos */
 }
 

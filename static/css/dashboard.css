@@ -9,8 +9,8 @@ body, html {
 
 /* El contenedor del Dashboard */
 .container {
-    display: flex;
-    min-height: 100vh; /* El contenedor ocupa al menos el 100% de la altura */
+   
+
     overflow: hidden; /* Elimina cualquier desplazamiento adicional */
 }
 

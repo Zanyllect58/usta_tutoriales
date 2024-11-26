@@ -183,7 +183,12 @@ def editar_usuario(user_id):
         flash('No tienes permisos para realizar esta acción.', 'danger')
         return redirect(url_for('inicio'))
 
-    user = User.query.get(user_id)
+    # Cambiado a db.session.get()
+    user = db.session.get(User, user_id)
+    if not user:
+        flash('Usuario no encontrado.', 'danger')
+        return redirect(url_for('users'))
+
     if request.method == 'POST':
         user.username = request.form['username']
         user.email = request.form['email']
@@ -191,7 +196,8 @@ def editar_usuario(user_id):
         user.career = request.form['career']
         user.semester = request.form['semester']
 
-        if User.query.filter((User .email == user.email) & (User .id != user_id)).first():
+        # Cambiado a db.session.query()
+        if db.session.query(User).filter((User .email == user.email) & (User .id != user_id)).first():
             flash('El correo ya está en uso. Elige otro.', 'danger')
             return redirect(url_for('editar_usuario', user_id=user_id))
 
@@ -307,8 +313,10 @@ def dashboard_admin():
 def dashboard_usuarios():
     user = current_user
     tutorias = Tutoria.query.all()
-    suscripciones = user.suscripciones
-    suscripciones_ids = [tutoria.id for tutoria in suscripciones]
+    
+    # Accede a las suscripciones a través de la relación definida en User
+    suscripciones = user.tutorias_inscritas  
+    suscripciones_ids = [suscripcion.tutoria_id for suscripcion in suscripciones]
 
     # Obtener historial de sesiones (tutorias a las que está suscrito)
     historial = []
@@ -321,15 +329,18 @@ def dashboard_usuarios():
 # Rutas de Gestión de Suscripciones
 # =============================
 
+
 @app.route('/suscribirse_tutoria/<int:tutoria_id>', methods=['POST'])
 @login_required
 def suscribirse_tutoria(tutoria_id):
-    tutoria = Tutoria.query.get(tutoria_id)
+    # Usar la sesión para obtener la tutoría
+    tutoria = db.session.get(Tutoria, tutoria_id)
+    
     if not tutoria:
         return jsonify({"status": "error", "message": "tutoria no encontrada"}), 404
 
     # Verificar si ya está suscrito
-    if any(t.id == tutoria_id for t in current_user.tutorias_inscritas):
+    if any(t.tutoria_id == tutoria_id for t in current_user.tutorias_inscritas):
         return jsonify({"status": "error", "message": "Ya estás suscrito a esta tutoria"}), 400
 
     # Crear nueva suscripción
@@ -341,7 +352,8 @@ def suscribirse_tutoria(tutoria_id):
 @app.route('/eliminar_suscripcion/<int:tutoria_id>', methods=['POST'])
 @login_required
 def eliminar_suscripcion(tutoria_id):
-    tutoria = Tutoria.query.get(tutoria_id)
+    # Usar la sesión para obtener la tutoría
+    tutoria = db.session.get(Tutoria, tutoria_id)
     if not tutoria:
         return jsonify({"status": "error", "message": "tutoria no encontrada"}), 404
 
@@ -400,7 +412,12 @@ def editar_tutoria_docente(tutoria_id):
 
 @app.route('/ver_estudiantes/<int:tutoria_id>')
 def ver_estudiantes(tutoria_id):
-    tutoria = Tutoria.query.get(tutoria_id)
+    # Usar la sesión para obtener la tutoría
+    tutoria = db.session.get(Tutoria, tutoria_id)
+    
+    if tutoria is None:
+        return "Tutoría no encontrada", 404  # O redirigir a una página de error
+
     return render_template('docentes/ver_estudiantes.html', tutoria=tutoria)
 
 @app.route('/finalizar_tutoria/<int:tutoria_id>', methods=['GET', 'POST'])

@@ -6,187 +6,128 @@
     <title>Dashboard Docente - TutorU</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --background-color: #f5f7fa;
-            --text-color: #333;
-            --card-background: #ffffff;
-            --card-border: #e0e0e0;
-        }
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --background-color: #f5f7fa;
+    --text-color: #333;
+    --card-background: #ffffff;
+    --card-border: #e0e0e0;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+body {
+    font-family: 'Inter', sans-serif; /* Usar la misma fuente para la coherencia */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        header {
-            background-color: var(--card-background);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 1rem 0;
-        }
+main {
+    padding: 2rem 0;
+    flex-grow: 1; /* Permitir que el contenido crezca */
+}
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+h1 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--secondary-color);
-        }
+.tutorias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
 
-        .user-menu {
-            display: flex;
-            align-items: center;
-        }
+.tutoria-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
 
-        .user-menu span {
-            margin-right: 1rem;
-            font-size: 1rem;
-            color: var(--secondary-color);
-        }
+.tutoria-card:hover {
+    transform: translateY(-5px);
+}
 
-        .user-menu img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
+.tutoria-title {
+    font-size: 1.25rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
 
-        .logout-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            text-decoration: none;
-        }
+.tutoria-materia {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
 
-        .logout-btn:hover {
-            background-color: #c0392b;
-        }
+.tutoria-info {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
 
-        main {
-            padding: 2rem 0;
-        }
+.tutoria-info p {
+    margin-bottom: 0.5rem;
+}
 
-        h1 {
-            font-size: 2rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
+.ver-estudiantes-btn,
+.editar-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
 
-        .tutorias-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+.ver-estudiantes-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+}
 
-        .tutoria-card {
-            background-color: var(--card-background);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
+.editar-btn {
+    background-color: rgb(18, 216, 34);
+    color: #fff;
+    text-decoration: none;
+}
 
-        .tutoria-card:hover {
-            transform: translateY(-5px);
-        }
+.ver-estudiantes-btn:hover {
+    background-color: #2980b9;
+}
 
-        .tutoria-title {
-            font-size: 1.25rem;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-        }
+.editar-btn:hover {
+    background-color: rgb(20, 158, 32);
+}
 
-        .tutoria-materia {
-            font-size: 1rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .tutoria-info {
-            font-size: 0.9rem;
-            color: var(--text-color);
-        }
-
-        .tutoria-info p {
-            margin-bottom: 0.5rem;
-        }
-
-        .ver-estudiantes-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: var(--primary-color);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-
-        .editar-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: rgb(18, 216, 34);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-
-        .ver-estudiantes-btn:hover {
-            background-color: #2980b9;
-        }
-
-        .editar-btn:hover {
-            background-color: rgb(20, 158, 32);
-        }
-
-        @media (max-width: 768px) {
-            .tutorias-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .tutorias-grid {
+        grid-template-columns: 1fr; /* Una sola columna en dispositivos pequeños */
+    }
+}
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">TutorU</div>
-                <div class="user-menu">
-                    <span>Bienvenido, {{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
-                    <!-- Botón de salida -->
-                    <a href="{{ url_for('logout') }}" class="logout-btn">Salir</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
+    {% include 'components/navbar_docentes.html' %}
     <main>
         <div class="container">
             <h1>Dashboard Docente</h1>
@@ -198,16 +139,16 @@
                     <div class="tutoria-info">
                         <p>Horario: {{ tutoria.horario }}</p>
                         <p>Ubicación: {{ tutoria.ubicacion }}</p>
-                        <p>Estudiantes: {{ tutoria.estudiantes|length }}</p>
+                        <p>Estudiantes: {{ tutoria.suscripciones|length }}</p>
                         <p>{% if tutoria.estado == true %}Activo{% else %}Finalizado{% endif %}</p>
                     </div>
                     <a href="{{ url_for('ver_estudiantes', tutoria_id=tutoria.id) }}" class="ver-estudiantes-btn">Ver Estudiantes</a>
 
-                    {%if tutoria.estado == True %} 
+                    {% if tutoria.estado == True %} 
                     <a href="{{ url_for('editar_tutoria_docente', tutoria_id=tutoria.id) }}" class="editar-btn">Editar Tutoria</a>
                     {% endif %}
                     
-                    {%if tutoria.horario and tutoria.ubicacion and tutoria.estado == True%}
+                    {% if tutoria.horario and tutoria.ubicacion and tutoria.estado == True %}
                     <a href="{{ url_for('finalizar_tutoria', tutoria_id=tutoria.id) }}" class="editar-btn">Finalizar</a>
                     {% endif %}
                 </article>

@@ -1,90 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiantes - {{ tutoria.nombre }} - TutorU</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-        }
+{% extends 'components/navbar_docentes.html' %}
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+{% block title %}Estudiantes - {{ tutoria.nombre }} - TutorU{% endblock %}
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/estudiantes.css') }}">
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-
-        th, td {
-            padding: 0.75rem;
-            text-align: left;
-            border: 1px solid #e0e0e0;
-        }
-
-        th {
-            background-color: #3498db;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.5rem 1rem;
-            background-color: #3498db;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .back-btn:hover {
-            background-color: #2980b9;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Estudiantes en la tutoria: {{ tutoria.nombre }}</h1>
-        <table>
-            <thead>
+<main class="estudiantes-container">  <!-- Clase para encapsulamiento -->
+    <h1>Estudiantes en la tutoría: {{ tutoria.nombre }}</h1>
+    <table class="estudiantes-table">  <!-- Clase para encapsulamiento -->
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for suscripcion in tutoria.suscripciones %}
                 <tr>
-                    <th>Nombre</th>
-                    <th>Correo</th>
+                    <td>{{ suscripcion.user.username }}</td>
+                    <td>{{ suscripcion.user.email }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for estudiante in tutoria.estudiantes %}
+            {% else %}
                 <tr>
-                    <td>{{ estudiante.username }}</td>
-                    <td>{{ estudiante.email }}</td>
+                    <td colspan="2">No hay estudiantes en esta tutoría.</td>
                 </tr>
-                {% else %}
-                <tr>
-                    <td colspan="3">No hay estudiantes en esta tutoria.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <a href="{{ url_for('dashboard_docentes') }}" class="back-btn">Volver al Dashboard</a>
-    </div>
-</body>
-</html>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard_docentes') }}" class="back-btn">Volver al Dashboard</a>
+</main>
+{% endblock %}

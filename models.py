@@ -25,13 +25,10 @@ class User(UserMixin, db.Model):
     career = db.Column(db.String(120))
     semester = db.Column(db.String(120))
 
-    # Relación con las tutorias inscritas
-    tutorias_inscritas = db.relationship('Tutoria', secondary='suscripciones', back_populates='estudiantes')
+    # Relación con las tutorías inscritas
+    tutorias_inscritas = db.relationship('Suscripcion', back_populates='user', cascade='all, delete-orphan')
 
-    # Relación con las suscripciones
-    suscripciones = db.relationship('Suscripcion', back_populates='user', cascade='all, delete-orphan')
-
-    # Relación con las tutorias asignadas (para los docentes)
+    # Relación con las tutorías asignadas (para los docentes)
     tutorias_asignadas = db.relationship('Tutoria', back_populates='teacher')
 
     def set_password(self, password):
@@ -40,9 +37,9 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
-# Modelo tutoria
+# Modelo Tutoria
 class Tutoria(db.Model):
-    __tablename__ = 'tutoria'  # Asegúrate de que el nombre de la tabla sea correcto
+    __tablename__ = 'tutoria'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     tema = db.Column(db.String(200))
@@ -53,10 +50,7 @@ class Tutoria(db.Model):
     estado = db.Column(db.Boolean, default=True)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Relación con los estudiantes
-    estudiantes = db.relationship('User', secondary='suscripciones', back_populates='tutorias_inscritas')
-
-    # Relación con las suscripciones
+    # Relación con los estudiantes a través de la tabla de suscripciones
     suscripciones = db.relationship('Suscripcion', back_populates='tutoria', cascade='all, delete-orphan')
 
     # Relación con el docente
@@ -70,7 +64,7 @@ class Suscripcion(db.Model):
     tutoria_id = db.Column(db.Integer, db.ForeignKey('tutoria.id'), nullable=False)
 
     # Relaciones bidireccionales
-    user = db.relationship('User', back_populates='suscripciones')
+    user = db.relationship('User', back_populates='tutorias_inscritas')
     tutoria = db.relationship('Tutoria', back_populates='suscripciones')
 
 # Crear las tablas basadas en los modelos

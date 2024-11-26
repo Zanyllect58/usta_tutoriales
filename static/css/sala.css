@@ -20,12 +20,12 @@
     background-color: #81BDC1;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   
 }
 
 .sala h1 {
     text-align: center;
-    margin-bottom: px;  /* Reducir el margen inferior para acercar el título al formulario */
+   
     color: #01479B;
 }
 

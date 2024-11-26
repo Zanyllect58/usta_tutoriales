@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tutorías Universitarias{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_principal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> <!-- Añade tu nuevo CSS aquí -->
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Tutorías Universitarias</div>
+                <div class="user-menu">
+                    <span>Bienvenido, {{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">Salir</a> <!-- Clase del botón de salir -->
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    {% block content %}
+    <!-- Aquí se renderizará el contenido específico de cada vista -->
+    {% endblock %}
+
+</body>
+</html>

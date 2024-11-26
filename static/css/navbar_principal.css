@@ -158,7 +158,7 @@ main {
 /* Testimonials section */
 .testimonials {
   background-color: #6cbcc7;
-  height: 40vh;
+
   color: #fff;
   padding: 2rem 0; 
   text-align: center;
@@ -291,3 +291,27 @@ footer {
     background: #01478d;
     color: white;
   }
+
+  .logout-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #c8336e; /* Color de fondo atractivo */
+    color: #fff; /* Color del texto */
+    border: none; /* Sin borde */
+    font-weight: bold; /* Texto en negrita */
+    transition: background-color 0.3s, color 0.3s, transform 0.3s; /* Transiciones suaves */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Para que el padding funcione correctamente */
+}
+
+.logout-btn:hover {
+    background-color: #a6234f; /* Color de fondo al pasar el mouse */
+    color: #f1f1f1; /* Color del texto al pasar el mouse */
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
+
+.logout-btn:active {
+    transform: scale(0.95); /* Efecto de reducción al hacer clic */
+}
+
