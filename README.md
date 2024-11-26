@@ -164,3 +164,40 @@ Rutas generales de la aplicación que no requieren que el usuario esté autentic
 9. python app.py
 
 
+query sql
+
+
+-- Crear la tabla 'user'
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
+    role ENUM('admin', 'student', 'teacher') NOT NULL,
+    identificacion VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    career VARCHAR(120),
+    semester VARCHAR(120)
+);
+
+-- Crear la tabla 'tutoria'
+CREATE TABLE tutoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    tema VARCHAR(200),
+    compromiso VARCHAR(200),
+    horario DATETIME,
+    ubicacion VARCHAR(100),
+    docente_id INT NOT NULL,
+    estado BOOLEAN DEFAULT TRUE,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (docente_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+-- Crear la tabla 'suscripciones'
+CREATE TABLE suscripciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    tutoria_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (tutoria_id) REFERENCES tutoria(id) ON DELETE CASCADE
+);
