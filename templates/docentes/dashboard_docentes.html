@@ -89,7 +89,8 @@ h1 {
 }
 
 .ver-estudiantes-btn,
-.editar-btn {
+.editar-btn,
+.finalizar-btn {
     display: inline-block;
     margin-top: 1rem;
     padding: 0.5rem 1rem;
@@ -110,12 +111,22 @@ h1 {
     text-decoration: none;
 }
 
+.finalizar-btn {
+    background-color: rgb(0, 27, 227);
+    color: #fff;
+    text-decoration: none;
+}
+
 .ver-estudiantes-btn:hover {
     background-color: #2980b9;
 }
 
 .editar-btn:hover {
     background-color: rgb(20, 158, 32);
+}
+
+.finalizar-btn:hover {
+    background-color: rgb(0, 14, 119);
 }
 
 /* Estilos responsivos */
@@ -149,7 +160,7 @@ h1 {
                     {% endif %}
                     
                     {% if tutoria.horario and tutoria.ubicacion and tutoria.estado == True %}
-                    <a href="{{ url_for('finalizar_tutoria', tutoria_id=tutoria.id) }}" class="editar-btn">Finalizar</a>
+                    <a href="{{ url_for('finalizar_tutoria', tutoria_id=tutoria.id) }}" class="finalizar-btn">Finalizar</a>
                     {% endif %}
                 </article>
                 {% else %}
