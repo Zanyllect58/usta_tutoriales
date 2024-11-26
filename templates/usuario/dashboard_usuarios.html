@@ -187,73 +187,77 @@
     {% endif %}
 </section>
 
-    </main>
-    
-    <script>
-        // Almacenar el estado de los botones en localStorage
-        window.onload = function() {
-            {% for tutoria in tutorias %}
-                var tutoriaId = {{ tutoria.id }};
-                var boton = document.getElementById('btn-tutoria-' + tutoriaId);
-                var estado = localStorage.getItem('tutoria-' + tutoriaId);
-    
-                // Si hay estado en localStorage, actualizamos el botón con base en ese estado
-                if (estado) {
-                    boton.innerText = estado === 'unirse' ? 'Unirse' : 'Eliminar';
-                    boton.style.backgroundColor = estado === 'unirse' ? '#3498db' : '#e74c3c';
-                } else {
-                    // Si no hay estado en localStorage, chequeamos si el usuario ya está suscrito
-                    {% if tutoria.id in suscripciones_ids %}
-                        boton.innerText = 'Eliminar';
-                        boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
-                    {% else %}
-                        boton.innerText = 'Unirse';
-                        boton.style.backgroundColor = '#3498db'; // Azul para unirse
-                    {% endif %}
-                }
-            {% endfor %}
-        };
-    
-        // Función para cambiar el estado del botón
-        function cambiarBoton(tutoriaId) {
+</main>
+
+<script>
+    // Almacenar el estado de los botones en localStorage
+    window.onload = function() {
+        {% for tutoria in tutorias %}
+            var tutoriaId = {{ tutoria.id }};
             var boton = document.getElementById('btn-tutoria-' + tutoriaId);
-            var url = '';
-            var action = '';
-    
-            // Verificamos si el usuario está intentando unirse o eliminar la suscripción
-            if (boton.innerText === 'Unirse') {
-                url = '/suscribirse_tutoria/' + tutoriaId;
-                action = 'unirse';
-            } else if (boton.innerText === 'Eliminar') {
-                url = '/eliminar_suscripcion/' + tutoriaId;
-                action = 'eliminar';
+            var estado = localStorage.getItem('tutoria-' + tutoriaId);
+
+            // Si hay estado en localStorage, actualizamos el botón con base en ese estado
+            if (estado) {
+                boton.innerText = estado === 'unirse' ? 'Unirse' : 'Eliminar';
+                boton.style.backgroundColor = estado === 'unirse' ? '#3498db' : '#e74c3c';
+            } else {
+                // Si no hay estado en localStorage, chequeamos si el usuario ya está suscrito
+                {% if tutoria.id in suscripciones_ids %}
+                    boton.innerText = 'Eliminar';
+                    boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
+                {% else %}
+                    boton.innerText = 'Unirse';
+                    boton.style.backgroundColor = '#3498db'; // Azul para unirse
+                {% endif %}
             }
-    
-            // Hacer la solicitud AJAX
-            fetch(url, {
-                method: 'POST',
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    if (action === 'unirse') {
-                        boton.innerText = 'Eliminar';
-                        boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
-                        localStorage.setItem('tutoria-' + tutoriaId, 'eliminar');
-                    } else if (action === 'eliminar') {
-                        boton.innerText = 'Unirse';
-                        boton.style.backgroundColor = '#3498db'; // Azul para unirse
-                        localStorage.setItem('tutoria-' + tutoriaId, 'unirse');
-                    }
-                } else {
-                    console.log('Error: ', data.message); // Si hay error, mostramos el mensaje
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        {% endfor %}
+    };
+
+    // Función para cambiar el estado del botón
+    function cambiarBoton(tutoriaId) {
+        var boton = document.getElementById('btn-tutoria-' + tutoriaId);
+        var url = '';
+        var action = '';
+
+        // Verificamos si el usuario está intentando unirse o eliminar la suscripción
+        if (boton.innerText === 'Unirse') {
+            url = '/suscribirse_tutoria/' + tutoriaId;
+            action = 'unirse';
+        } else if (boton.innerText === 'Eliminar') {
+            url = '/eliminar_suscripcion/' + tutoriaId;
+            action = 'eliminar';
         }
-    </script>
+
+        // Hacer la solicitud AJAX
+        fetch(url, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                if (action === 'unirse') {
+                    boton.innerText = 'Eliminar';
+                    boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
+                    localStorage.setItem('tutoria-' + tutoriaId, 'eliminar');
+                } else if (action === 'eliminar') {
+                    boton.innerText = 'Unirse';
+                    boton.style.backgroundColor = '#3498db'; // Azul para unirse
+                    localStorage.setItem('tutoria-' + tutoriaId, 'unirse');
+                }
+            } else {
+                console.log('Error: ', data.message); // Si hay error, mostramos el mensaje
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        setInterval(function() {
+            location.reload();
+        }, 100);
+    }
+</script>
     
 </body>
 </html>
