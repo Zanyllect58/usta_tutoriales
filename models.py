@@ -14,9 +14,8 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 # Modelo User
-
 class User(UserMixin, db.Model):
-    __tablename__ = 'user'  # Asegúrate de que el nombre de la tabla sea correcto
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
@@ -27,10 +26,7 @@ class User(UserMixin, db.Model):
     semester = db.Column(db.String(120))
 
     # Relación con las salas inscritas
-    salas_inscritas = db.relationship('Sala', secondary='suscripciones', back_populates='estudiantes')
-
-    # Relación con las suscripciones
-    suscripciones = db.relationship('Suscripcion', back_populates='user', cascade='all, delete-orphan')
+    salas_inscritas = db.relationship('Suscripcion', back_populates='estudiante', cascade='all, delete-orphan')
 
     # Relación con las salas asignadas (para los docentes)
     salas_asignadas = db.relationship('Sala', back_populates='docente')
@@ -43,7 +39,7 @@ class User(UserMixin, db.Model):
 
 # Modelo Sala
 class Sala(db.Model):
-    __tablename__ = 'sala'  # Asegúrate de que el nombre de la tabla sea correcto
+    __tablename__ = 'sala'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.String(200), nullable=False)
@@ -53,17 +49,10 @@ class Sala(db.Model):
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relación con los estudiantes
-    estudiantes = db.relationship('User', secondary='suscripciones', back_populates='salas_inscritas')
-
-    # Relación con las suscripciones
-    suscripciones = db.relationship('Suscripcion', back_populates='sala', cascade='all, delete-orphan')
+    estudiantes = db.relationship('Suscripcion', back_populates='sala')
 
     # Relación con el docente
     docente = db.relationship('User', back_populates='salas_asignadas')
-
-
-
-
 
 # Modelo Suscripcion
 class Suscripcion(db.Model):
@@ -73,12 +62,8 @@ class Suscripcion(db.Model):
     sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)
 
     # Relaciones bidireccionales
-    user = db.relationship('User', back_populates='suscripciones')
-    sala = db.relationship('Sala', back_populates='suscripciones')
-
-
-
-
+    estudiante = db.relationship('User', back_populates='salas_inscritas')
+    sala = db.relationship('Sala', back_populates='estudiantes')
 
 # Crear las tablas basadas en los modelos
 def create_tables(app):
