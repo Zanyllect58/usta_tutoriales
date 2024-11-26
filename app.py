@@ -4,6 +4,7 @@ from config import Config
 from models import User, Suscripcion, Tutoria, db, bcrypt
 from datetime import datetime
 
+
 # Inicialización de la aplicación Flask
 app = Flask(__name__, template_folder='templates')
 app.config.from_object(Config)
@@ -14,16 +15,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 # Función que carga el usuario por su id
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))  # Uso de Session.get() en lugar de Query.get()
 
 # =============================
 # Rutas de Autenticación
 # =============================
 
-from flask import session
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -170,46 +172,7 @@ def users():
     user = User.query.all()
     return render_template('admin/dashboard_admin_usuarios.html', user=user)
 
-# Crear Usuario (solo admin)
-@app.route('/registrar', methods=['GET', 'POST'])
-def crear_usuario():
-    if request.method == 'POST':
-        # Recoger los datos del formulario
-        user_data = {
-            'username': request.form['nombre'],
-            'email': request.form['email'],
-            'password': bcrypt.generate_password_hash(request.form['password']).decode('utf-8'),
-            'role': 'student',  # Aseguramos que el rol sea siempre "student"
-            'identificacion': request.form['confirm-number'],
-            'career': request.form['carrera'],
-            'semester': request.form['semestre']
-        }
 
-        # Verificar si el correo ya existe en la base de datos
-        if User.query.filter_by(email=user_data['email']).first():
-            flash('El correo ya está en uso. Elige otro.', 'danger')
-            return render_template('registrar.html')  # Redirigir a la misma página si el correo ya existe
-
-        # Verificar si la identificación ya está en uso
-        if User.query.filter_by(identificacion=user_data['identificacion']).first():
-            flash('La identificación ya está en uso. Elige otra.', 'danger')
-            return render_template('registrar.html')  # Redirigir a la misma página si la identificación ya existe
-
-        try:
-            # Crear el nuevo usuario
-            new_user = User(**user_data)
-            db.session.add(new_user)
-            db.session.commit()
-
-            flash("Estudiante agregado correctamente.", "success")
-            return redirect(url_for('inicio'))  # Redirigir al inicio o página correspondiente después del registro
-        except Exception as e:
-            db.session.rollback()
-            flash(f"Error al agregar el estudiante: {str(e)}", "danger")
-            return render_template('registrar.html')  # Redirigir a la misma página en caso de error
-
-    # Si es un GET, renderizamos el formulario de registro
-    return render_template('registrar.html')
 
 
 # Editar Usuario (solo admin)
