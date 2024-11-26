@@ -131,7 +131,6 @@
             <div class="header-content">
                 <h1>Dashboard de Usuario</h1>
                 <div class="user-info">
-                    <img src="https://via.placeholder.com/40" alt="Foto de perfil">
                     <span>Bienvenido, {{ session.get('user_name', 'Invitado') }}</span>
                     <a href="{{ url_for('inicio') }}" class="logout-btn">Cerrar sesión</a>
                 </div>
@@ -142,28 +141,30 @@
     <main class="container">
         <!-- Sección de Salas Disponibles para Suscribirse -->
         <section class="dashboard-section">
-            <h2>Salas Disponibles</h2>
-            {% if salas %}
+            <h2>tutorias Disponibles</h2>
+            {% if tutorias %}
                 <ul class="session-list">
-                    {% for sala in salas %}
-                        <li class="session-item" id="sala-{{ sala.id }}">
+                    {% for tutoria in tutorias %}
+                        {%if tutoria.horario and tutoria.ubicacion and tutoria.estado == True %}
+                        <li class="session-item" id="tutoria-{{ tutoria.id }}">
                             <div class="session-info">
-                                <div class="session-subject">{{ sala.nombre_sala }}</div>
-                                <div class="session-time">Horario: {{ sala.horario }}</div>
-                                <div class="session-tutor">Ubicación: {{ sala.ubicacion }}</div>
+                                <div class="session-subject">{{ tutoria.nombre }}</div>
+                                <div class="session-time">Horario: {{ tutoria.horario }}</div>
+                                <div class="session-tutor">Ubicación: {{ tutoria.ubicacion }}</div>
                             </div>
-                            <button class="btn" id="btn-sala-{{ sala.id }}" onclick="cambiarBoton({{ sala.id }})">
-                                {% if sala.id in suscripciones_ids %}
+                            <button class="btn" id="btn-tutoria-{{ tutoria.id }}" onclick="cambiarBoton({{ tutoria.id }})">
+                                {% if tutoria.id in suscripciones_ids %}
                                     Eliminar
                                 {% else %}
                                     Unirse
                                 {% endif %}
                             </button>
                         </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>No hay salas disponibles para unirse.</p>
+                <p>No hay tutorias disponibles para unirse.</p>
             {% endif %}
         </section>
     
@@ -176,7 +177,7 @@
             {% for sesion in historial %}
                 <li class="history-item">
                     <div class="history-info">
-                        <strong>{{ sesion.nombre_sala }}</strong> - {{ sesion.horario }} | {{ sesion.ubicacion }}
+                        <strong>{{ sesion.nombre_tutoria }}</strong> - {{ sesion.horario }} | {{ sesion.ubicacion }}
                     </div>
                 </li>
             {% endfor %}
@@ -191,10 +192,10 @@
     <script>
         // Almacenar el estado de los botones en localStorage
         window.onload = function() {
-            {% for sala in salas %}
-                var salaId = {{ sala.id }};
-                var boton = document.getElementById('btn-sala-' + salaId);
-                var estado = localStorage.getItem('sala-' + salaId);
+            {% for tutoria in tutorias %}
+                var tutoriaId = {{ tutoria.id }};
+                var boton = document.getElementById('btn-tutoria-' + tutoriaId);
+                var estado = localStorage.getItem('tutoria-' + tutoriaId);
     
                 // Si hay estado en localStorage, actualizamos el botón con base en ese estado
                 if (estado) {
@@ -202,7 +203,7 @@
                     boton.style.backgroundColor = estado === 'unirse' ? '#3498db' : '#e74c3c';
                 } else {
                     // Si no hay estado en localStorage, chequeamos si el usuario ya está suscrito
-                    {% if sala.id in suscripciones_ids %}
+                    {% if tutoria.id in suscripciones_ids %}
                         boton.innerText = 'Eliminar';
                         boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
                     {% else %}
@@ -214,17 +215,17 @@
         };
     
         // Función para cambiar el estado del botón
-        function cambiarBoton(salaId) {
-            var boton = document.getElementById('btn-sala-' + salaId);
+        function cambiarBoton(tutoriaId) {
+            var boton = document.getElementById('btn-tutoria-' + tutoriaId);
             var url = '';
             var action = '';
     
             // Verificamos si el usuario está intentando unirse o eliminar la suscripción
             if (boton.innerText === 'Unirse') {
-                url = '/suscribirse_sala/' + salaId;
+                url = '/suscribirse_tutoria/' + tutoriaId;
                 action = 'unirse';
             } else if (boton.innerText === 'Eliminar') {
-                url = '/eliminar_suscripcion/' + salaId;
+                url = '/eliminar_suscripcion/' + tutoriaId;
                 action = 'eliminar';
             }
     
@@ -238,11 +239,11 @@
                     if (action === 'unirse') {
                         boton.innerText = 'Eliminar';
                         boton.style.backgroundColor = '#e74c3c'; // Rojo para eliminar
-                        localStorage.setItem('sala-' + salaId, 'eliminar');
+                        localStorage.setItem('tutoria-' + tutoriaId, 'eliminar');
                     } else if (action === 'eliminar') {
                         boton.innerText = 'Unirse';
                         boton.style.backgroundColor = '#3498db'; // Azul para unirse
-                        localStorage.setItem('sala-' + salaId, 'unirse');
+                        localStorage.setItem('tutoria-' + tutoriaId, 'unirse');
                     }
                 } else {
                     console.log('Error: ', data.message); // Si hay error, mostramos el mensaje

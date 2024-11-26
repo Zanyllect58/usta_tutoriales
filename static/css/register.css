@@ -36,6 +36,17 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 20px; /* Asegura espacio entre los campos */
+    resize:none
+}
+
+.register-container textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px; /* Asegura espacio entre los campos */
+    resize:none
 }
 
 .register-container .btn-submit {

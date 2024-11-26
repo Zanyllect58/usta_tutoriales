@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify 
 from flask_login import login_required, current_user, LoginManager, login_user, logout_user
 from config import Config
-from models import User, Suscripcion, Sala, db, bcrypt
+from models import User, Suscripcion, Tutoria, db, bcrypt
 from datetime import datetime
 
 # Inicialización de la aplicación Flask
@@ -58,17 +58,13 @@ def logout():
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio'))
 
-
-
-
-
 # =============================
-# Rutas de Gestión de Salas
+# Rutas de Gestión de Tutorias
 # =============================
 
-@app.route('/crear_sala', methods=['GET', 'POST'])
+@app.route('/crear_tutoria', methods=['GET', 'POST'])
 @login_required
-def crear_sala():
+def crear_tutoria():
     if current_user.role != 'admin':
         flash('No tienes permisos para realizar esta acción.', 'danger')
         return redirect(url_for('inicio'))
@@ -76,25 +72,21 @@ def crear_sala():
     docentes = User.query.filter_by(role='teacher').all()
 
     if request.method == 'POST':
-        nombre = request.form.get('nombre-sala')
-        descripcion = request.form.get('descripcion')
-        horario = request.form.get('horario')
-        ubicacion = request.form.get('ubicacion')
+        nombre = request.form.get('nombre-tutoria')
         docente_id = request.form.get('docente')
+        compromiso = ""
 
-        if not all([nombre, descripcion, horario, ubicacion, docente_id]):
+        if not all([nombre, docente_id]):
             flash('Todos los campos son obligatorios.', 'danger')
-            return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes)
+            return render_template('admin/dashboard_admin_crear_tutoria.html', docentes=docentes)
 
         try:
-            nueva_sala = Sala(
+            nueva_tutoria = Tutoria(
                 nombre=nombre,
-                descripcion=descripcion,
-                horario=horario,
-                ubicacion=ubicacion,
-                docente_id=docente_id
+                docente_id=docente_id,
+                compromiso = compromiso
             )
-            db.session.add(nueva_sala)
+            db.session.add(nueva_tutoria)
             db.session.commit()
             flash('Tutoría creada correctamente.', 'success')
             return redirect(url_for('listar_tutorias'))
@@ -102,7 +94,7 @@ def crear_sala():
             db.session.rollback()
             flash(f'Error al crear la tutoría: {str(e)}', 'danger')
 
-    return render_template('admin/dashboard_admin_crear_sala.html', docentes=docentes)
+    return render_template('admin/dashboard_admin_crear_tutoria.html', docentes=docentes)
 
 # Listar todas las tutorías (solo admin)
 @app.route('/dashboard_admin_tutorias', methods=['GET'])
@@ -112,26 +104,26 @@ def listar_tutorias():
         flash('No tienes permisos para acceder a esta página.', 'danger')
         return redirect(url_for('inicio'))
 
-    tutorias = Sala.query.all()
+    tutorias = Tutoria.query.all()
     return render_template('admin/dashboard_admin_tutorias.html', tutorias=tutorias)
 
 # Editar una tutoría (solo admin)
-@app.route('/editar_sala/<int:sala_id>', methods=['GET', 'POST'])
+@app.route('/editar_tutoria/<int:tutoria_id>', methods=['GET', 'POST'])
 @login_required
-def editar_tutoria(sala_id):
+def editar_tutoria(tutoria_id):
     if current_user.role != 'admin':
         flash('No tienes permisos para realizar esta acción.', 'danger')
         return redirect(url_for('inicio'))
 
-    sala = Sala.query.get_or_404(sala_id)
+    tutoria = Tutoria.query.get_or_404(tutoria_id)
     docentes = User.query.filter_by(role='teacher').all()
 
     if request.method == 'POST':
-        sala.nombre = request.form['nombre']
-        sala.descripcion = request.form['descripcion']
-        sala.horario = request.form['horario']
-        sala.ubicacion = request.form['ubicacion']
-        sala.docente_id = request.form['docente_id']
+        tutoria.nombre = request.form['nombre-tutoria']
+        tutoria.tema = request.form['tema']
+        tutoria.horario = request.form['horario']
+        tutoria.ubicacion = request.form['ubicacion']
+        tutoria.docente_id = request.form['docente']
 
         try:
             db.session.commit()
@@ -141,20 +133,20 @@ def editar_tutoria(sala_id):
             db.session .rollback()
             flash(f'Error al actualizar la tutoría: {str(e)}', 'danger')
 
-    return render_template('admin/dashboard_admin_editar_sala.html', sala=sala, docentes=docentes)
+    return render_template('admin/dashboard_admin_editar_tutoria.html', tutoria=tutoria, docentes=docentes)
 
 # Eliminar una tutoría (solo admin)
-@app.route('/eliminar_sala/<int:sala_id>', methods=['POST'])
+@app.route('/eliminar_tutoria/<int:tutoria_id>', methods=['POST'])
 @login_required
-def eliminar_tutoria(sala_id):
+def eliminar_tutoria(tutoria_id):
     if current_user.role != 'admin':
         flash('No tienes permisos para realizar esta acción.', 'danger')
         return redirect(url_for('inicio'))
 
-    sala = Sala.query.get_or_404(sala_id)
+    tutoria = Tutoria.query.get_or_404(tutoria_id)
 
     try:
-        db.session.delete(sala)
+        db.session.delete(tutoria)
         db.session.commit()
         flash('Tutoría eliminada correctamente.', 'success')
     except Exception as e:
@@ -333,15 +325,15 @@ def dashboard_admin():
 
     total_usuarios = User.query.count()
     inicio_mes = datetime.now().replace(day=1)
-    total_salas_mes = Sala.query.filter(Sala.fecha >= inicio_mes).count()
+    total_tutoria_mes = Tutoria.query.filter(Tutoria.fecha >= inicio_mes).count()
 
     usuarios = User.query.all()
-    tutorias = Sala.query.all()
+    tutorias = Tutoria.query.all()
 
     return render_template(
         'admin/dashboard_admin.html',
         total_usuarios=total_usuarios,
-        total_salas_mes=total_salas_mes,
+        total_tutorias_mes=total_tutoria_mes,
         usuarios=usuarios,
         tutorias=tutorias
     )
@@ -351,57 +343,49 @@ def dashboard_admin():
 @login_required
 def dashboard_usuarios():
     user = current_user
-    salas = Sala.query.all()
+    tutorias = Tutoria.query.all()
     suscripciones = user.suscripciones
-    suscripciones_ids = [sala.id for sala in suscripciones]
-    return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids)
+    suscripciones_ids = [tutoria.id for tutoria in suscripciones]
 
-# Dashboard para Docentes
-def dashboard_usuarios():
-    user = current_user
-    salas = Sala.query.all()
-    suscripciones = user.suscripciones
-    suscripciones_ids = [sala.id for sala in suscripciones]
-
-    # Obtener historial de sesiones (salas a las que está suscrito)
+    # Obtener historial de sesiones (tutorias a las que está suscrito)
     historial = []
     for suscripcion in suscripciones:
-        historial.append(suscripcion.sala)  # Accedemos a la sala relacionada con la suscripción
+        historial.append(suscripcion.tutoria)  # Accedemos a la tutoria relacionada con la suscripción
 
-    return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids, historial=historial)
+    return render_template('usuario/dashboard_usuarios.html', tutorias=tutorias, suscripciones_ids=suscripciones_ids, historial=historial)
 
 # =============================
 # Rutas de Gestión de Suscripciones
 # =============================
 
-@app.route('/suscribirse_sala/<int:sala_id>', methods=['POST'])
+@app.route('/suscribirse_tutoria/<int:tutoria_id>', methods=['POST'])
 @login_required
-def suscribirse_sala(sala_id):
-    sala = Sala.query.get(sala_id)
-    if not sala:
-        return jsonify({"status": "error", "message": "Sala no encontrada"}), 404
+def suscribirse_tutoria(tutoria_id):
+    tutoria = Tutoria.query.get(tutoria_id)
+    if not tutoria:
+        return jsonify({"status": "error", "message": "tutoria no encontrada"}), 404
 
     # Verificar si ya está suscrito
-    if any(s.id == sala_id for s in current_user.salas_inscritas):
-        return jsonify({"status": "error", "message": "Ya estás suscrito a esta sala"}), 400
+    if any(t.id == tutoria_id for t in current_user.tutorias_inscritas):
+        return jsonify({"status": "error", "message": "Ya estás suscrito a esta tutoria"}), 400
 
     # Crear nueva suscripción
-    nueva_suscripcion = Suscripcion(user_id=current_user.id, sala_id=sala.id)
+    nueva_suscripcion = Suscripcion(user_id=current_user.id, tutoria_id=tutoria.id)
     db.session.add(nueva_suscripcion)
     db.session.commit()
     return jsonify({"status": "success", "action": "unirse"})
 
-@app.route('/eliminar_suscripcion/<int:sala_id>', methods=['POST'])
+@app.route('/eliminar_suscripcion/<int:tutoria_id>', methods=['POST'])
 @login_required
-def eliminar_suscripcion(sala_id):
-    sala = Sala.query.get(sala_id)
-    if not sala:
-        return jsonify({"status": "error", "message": "Sala no encontrada"}), 404
+def eliminar_suscripcion(tutoria_id):
+    tutoria = Tutoria.query.get(tutoria_id)
+    if not tutoria:
+        return jsonify({"status": "error", "message": "tutoria no encontrada"}), 404
 
     # Buscar suscripción
-    suscripcion = Suscripcion.query.filter_by(user_id=current_user.id, sala_id=sala_id).first()
+    suscripcion = Suscripcion.query.filter_by(user_id=current_user.id, tutoria_id=tutoria_id).first()
     if not suscripcion:
-        return jsonify({"status": "error", "message": "No estás suscrito a esta sala"}), 400
+        return jsonify({"status": "error", "message": "No estás suscrito a esta tutoria"}), 400
 
     db.session.delete(suscripcion)
     db.session.commit()
@@ -421,14 +405,63 @@ def dashboard_docentes():
         flash('No tienes permisos para acceder a esta página.', 'danger')
         return redirect(url_for('inicio'))
 
-    # Aquí puedes agregar cualquier lógica para que los docentes vean sus salas o tutorías asignadas
-    salas = Sala.query.filter_by(docente_id=current_user.id).all()  # Obtener las tutorías asignadas al docente
-    return render_template('docentes/dashboard_docentes.html', salas=salas)
+    # Aquí puedes agregar cualquier lógica para que los docentes vean sus tutorias o tutorías asignadas
+    tutorias = Tutoria.query.filter_by(docente_id=current_user.id).all()  # Obtener las tutorías asignadas al docente
+    return render_template('docentes/dashboard_docentes.html', tutorias=tutorias)
+
+# Editar una tutoría (solo docente)
+@app.route('/editar_tutoria_docente/<int:tutoria_id>', methods=['GET', 'POST'])
+@login_required
+def editar_tutoria_docente(tutoria_id):
+    if current_user.role != 'teacher':
+        flash('No tienes permisos para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio'))
+
+    tutoria = Tutoria.query.get_or_404(tutoria_id)
+
+    if request.method == 'POST':
+        tutoria.tema = request.form['tema']
+        tutoria.horario = request.form['horario']
+        tutoria.ubicacion = request.form['ubicacion']
+
+        try:
+            db.session.commit()
+            flash('Tutoría actualizada correctamente.', 'success')
+            return redirect(url_for('dashboard_docentes'))
+        except Exception as e:
+            db.session .rollback()
+            flash(f'Error al actualizar la tutoría: {str(e)}', 'danger')
+
+    return render_template('docentes/dashboard_docentes_editar_tutoria.html', tutoria=tutoria)
 
 
-@app.route('/ver_estudiantes/<int:sala_id>')
-def ver_estudiantes(sala_id):
-    return render_template('ver_estudiantes.html', sala_id=sala_id)
+@app.route('/ver_estudiantes/<int:tutoria_id>')
+def ver_estudiantes(tutoria_id):
+    tutoria = Tutoria.query.get(tutoria_id)
+    return render_template('docentes/ver_estudiantes.html', tutoria=tutoria)
+
+@app.route('/finalizar_tutoria/<int:tutoria_id>', methods=['GET', 'POST'])
+def finalizar_tutoria(tutoria_id):
+    if current_user.role != 'teacher':
+        flash('No tienes permisos para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio'))
+
+    tutoria = Tutoria.query.get_or_404(tutoria_id)
+
+    if request.method == 'POST':
+        tutoria.estado = False
+        tutoria.compromiso = request.form['compromiso']
+
+        try:
+            db.session.commit()
+            flash('Tutoría actualizada correctamente.', 'success')
+            return redirect(url_for('dashboard_docentes'))
+        except Exception as e:
+            db.session .rollback()
+            flash(f'Error al actualizar la tutoría: {str(e)}', 'danger')
+
+    return render_template('docentes/dashboard_docentes_finalizar_tutoria.html', tutoria=tutoria)
+
 
 # =============================
 # Rutas de Gestión de Principales

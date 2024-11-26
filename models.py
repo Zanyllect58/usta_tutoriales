@@ -26,14 +26,14 @@ class User(UserMixin, db.Model):
     career = db.Column(db.String(120))
     semester = db.Column(db.String(120))
 
-    # Relación con las salas inscritas
-    salas_inscritas = db.relationship('Sala', secondary='suscripciones', back_populates='estudiantes')
+    # Relación con las tutorias inscritas
+    tutorias_inscritas = db.relationship('Tutoria', secondary='suscripciones', back_populates='estudiantes')
 
     # Relación con las suscripciones
     suscripciones = db.relationship('Suscripcion', back_populates='user', cascade='all, delete-orphan')
 
-    # Relación con las salas asignadas (para los docentes)
-    salas_asignadas = db.relationship('Sala', back_populates='docente')
+    # Relación con las tutorias asignadas (para los docentes)
+    tutorias_asignadas = db.relationship('Tutoria', back_populates='teacher')
 
     def set_password(self, password):
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -41,44 +41,38 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
-# Modelo Sala
-class Sala(db.Model):
-    __tablename__ = 'sala'  # Asegúrate de que el nombre de la tabla sea correcto
+# Modelo tutoria
+class Tutoria(db.Model):
+    __tablename__ = 'tutoria'  # Asegúrate de que el nombre de la tabla sea correcto
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    descripcion = db.Column(db.String(200), nullable=False)
-    horario = db.Column(db.String(50), nullable=False)
-    ubicacion = db.Column(db.String(100), nullable=False)
+    tema = db.Column(db.String(200))
+    compromiso = db.Column(db.String(200))
+    horario = db.Column(db.DateTime)
+    ubicacion = db.Column(db.String(100))
     docente_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    estado = db.Column(db.Boolean, default=True)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relación con los estudiantes
-    estudiantes = db.relationship('User', secondary='suscripciones', back_populates='salas_inscritas')
+    estudiantes = db.relationship('User', secondary='suscripciones', back_populates='tutorias_inscritas')
 
     # Relación con las suscripciones
-    suscripciones = db.relationship('Suscripcion', back_populates='sala', cascade='all, delete-orphan')
+    suscripciones = db.relationship('Suscripcion', back_populates='tutoria', cascade='all, delete-orphan')
 
     # Relación con el docente
-    docente = db.relationship('User', back_populates='salas_asignadas')
-
-
-
-
+    teacher = db.relationship('User', back_populates='tutorias_asignadas')
 
 # Modelo Suscripcion
 class Suscripcion(db.Model):
     __tablename__ = 'suscripciones'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)
+    tutoria_id = db.Column(db.Integer, db.ForeignKey('tutoria.id'), nullable=False)
 
     # Relaciones bidireccionales
     user = db.relationship('User', back_populates='suscripciones')
-    sala = db.relationship('Sala', back_populates='suscripciones')
-
-
-
-
+    tutoria = db.relationship('Tutoria', back_populates='suscripciones')
 
 # Crear las tablas basadas en los modelos
 def create_tables(app):

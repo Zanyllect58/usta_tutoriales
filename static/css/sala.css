@@ -51,7 +51,7 @@
 .sala input[type="text"],
 .sala input[type="number"],
 .sala input[type="email"],
-.sala input[type="date"],
+.sala input[type="datetime-local"],
 .sala select {
     width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
     padding: 12px; /* Aumenta el padding para que se vea más espacioso */

@@ -6,7 +6,7 @@
     
     <!-- Sección de estadísticas del dashboard -->
     <section class="dashboard-grid">
-        {% set stats = [('Total de Usuarios', total_usuarios), ('Salas Este Mes', total_salas_mes)] %}
+        {% set stats = [('Total de Usuarios', total_usuarios), ('Tutorias Este Mes', total_tutorias_mes)] %}
         {% for title, count in stats %}
             <div class="dashboard-card">
                 <h3>{{ title }}</h3>
@@ -66,7 +66,7 @@
                     <td>{{ tutoria.nombre }}</td>
                     <td>{{ tutoria.horario }}</td>
                     <td>{{ tutoria.ubicacion }}</td>
-                    <td>{{ tutoria.fecha }}</td>
+                    <td>{% if tutoria.estado == true %}Activo{% else %}Finalizado{% endif %}</td>
                 </tr>
             {% else %}
                 <tr>

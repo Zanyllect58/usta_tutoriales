@@ -1,0 +1,38 @@
+<!-- register.html -->
+
+
+{% block head %}
+    <!-- Cargar el archivo CSS solo en la página de registro -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_principal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">TutorU</div>
+            <div class="user-menu">
+                <span>{{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
+                <!-- Botón de salida -->
+                
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="register-container">
+    <h1>Finalizar Tutoria</h1>
+
+    <form id="registro-estudiante" action="{{ url_for('finalizar_tutoria', tutoria_id=tutoria.id) }}" method="POST" novalidate>
+        <div class="form-group">
+            <label for="compromiso">Compromiso:</label>
+            <textarea type="text" id="compromiso" name="compromiso" maxlength="250" value="" rows="10" cols="50"required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Actualizar Cambios</button>
+    </form>
+</div>
+{% endblock %}

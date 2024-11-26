@@ -149,6 +149,13 @@ body, html {
     background-color: #f4f4f4;
 }
 
+.truncate {
+    max-width: 10px; /* Ancho máximo del contenido */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el contenido que excede el ancho */
+    text-overflow: ellipsis; /* Añade '...' al final del texto truncado */
+  }
+
 /* Colores de estado de los usuarios */
 .status-active {
     color: #2ecc71; /* Verde para estado activo */

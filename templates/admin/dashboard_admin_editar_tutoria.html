@@ -1,0 +1,47 @@
+<!-- templates/admin/dashboard_admin_editar_tutoria.html -->
+{% extends 'components/base.html' %}
+
+{% block content %}
+
+{% include 'components/header.html' %}
+
+<div class="sala">
+    <div class="container">
+        <h1>Editar Sala de Tutoría</h1>
+        <form action="{{ url_for('editar_tutoria', tutoria_id=tutoria.id) }}" method="POST">
+            <div class="form-group">
+                <label for="nombre-sala">Nombre de la tutoria:</label>
+                <input type="text" id="nombre-tutoria" name="nombre-tutoria" maxlength="100" value="{{ tutoria.nombre }}" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="tema">Tema:</label>
+                <input type="text" id="tema" name="tema" maxlength="100" value="{% if tutoria.tema %}{{ tutoria.tema }}{% else %}{% endif %}" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="horario">Horario de Disponibilidad:</label>
+                <input type="datetime-local" id="horario" name="horario" value="{{ tutoria.horario }}" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="ubicacion">Ubicación:</label>
+                <input type="text" id="ubicacion" name="ubicacion" maxlength="255" value="{% if tutoria.ubicacion %}{{ tutoria.ubicacion }}{% else %}{% endif %}" placeholder="Ej: Edificio A, Piso 2, Sala 201" required>
+            </div>
+
+            <div class="form-group">
+                <label for="docente">Docente Asignado:</label>
+                <select id="docente" name="docente" required>
+                    <option value="">Seleccionar Docente</option>
+                    {% for docente in docentes %}
+                    <option value="{{ docente.id }}" {% if docente.id == tutoria.docente_id %}selected{% endif %}>{{ docente.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <button type="submit" class="btn-submit">Actualizar tutoria</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

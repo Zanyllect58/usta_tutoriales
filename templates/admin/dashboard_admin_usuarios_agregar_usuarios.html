@@ -8,65 +8,152 @@
 
 <div class="editar-usuario">
     <div class="container">
-        <h1>Agregar Usuario</h1>  <!-- Título de la página -->
-        <form id="editar-usuario-form" method="POST" novalidate>
-            
+        <h1>Agregar Usuario</h1> <!-- Título de la página -->
+        <form id="editar-usuario-form" method="POST">
             <!-- Nombre completo -->
             <div class="form-group">
                 <label for="nombre">Nombre completo:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="text" id="nombre" name="nombre" required pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="El nombre solo puede contener letras">
+                <small id="nombre-error" style="color: red; display: none;">El nombre solo puede contener letras.</small>
             </div>
-            
+        
             <!-- Correo electrónico -->
             <div class="form-group">
                 <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required minlength="5">
+                <small id="email-error" style="color: red; display: none;">El correo electrónico debe tener al menos 5 caracteres antes del arroba.</small>
             </div>
-
+        
             <!-- Contraseña -->
             <div class="form-group">
                 <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required minlength="8">
+                <input type="password" id="password" name="password" required minlength="8" pattern="^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Za-z]).{8,}$" title="La contraseña debe tener al menos 8 caracteres, un número y un carácter especial.">
+                <small id="password-error" style="color: red; display: none;">La contraseña debe tener al menos 8 caracteres, un número y un carácter especial.</small>
             </div>
-            
-            <!-- Codigo -->
-            <div class="form-group" >
-                <label for="confirm-number">Codigo de estudiante:</label>
-                <input type="number" id="confirm-number" name="confirm-number" required minlength="8">
+        
+            <!-- Código de estudiante -->
+            <div class="form-group">
+                <label for="confirm-number">Código de estudiante:</label>
+                <input type="text" id="confirm-number" name="confirm-number" required pattern="^\d{7,}$" title="El código debe tener al menos 7 caracteres numéricos.">
+                <small id="confirm-number-error" style="color: red; display: none;">El código debe tener al menos 7 caracteres.</small>
             </div>
-            
+        
             <!-- Tipo de usuario -->
             <div class="form-group">
                 <label for="role">Tipo de usuario:</label>
                 <select name="role" id="role" required>
-                    <option value="" disabled selected></option>
+                    <option value="" disabled selected>Seleccione un tipo de usuario</option>
                     <option value="student">Estudiante</option>
                     <option value="teacher">Tutor</option>
                     <option value="admin">Administrador</option>
                 </select>
+                <small id="role-error" style="color: red; display: none;">Debe seleccionar un tipo de usuario.</small>
             </div>
-            
+        
             <!-- Carrera -->
             <div class="form-group">
                 <label for="carrera">Carrera:</label>
-                <input type="text" id="carrera" name="carrera">
+                <input type="text" id="carrera" name="carrera" required minlength="5">
+                <small id="carrera-error" style="color: red; display: none;">La carrera debe tener al menos 5 caracteres.</small>
             </div>
-            
+        
             <!-- Semestre -->
             <div class="form-group">
                 <label for="semestre">Semestre actual:</label>
-                <select id="semestre" name="semestre">
+                <select id="semestre" name="semestre" required>
                     <option value="" disabled selected>Selecciona un semestre</option>
                     {% for i in range(1, 11) %}
-                        <option value="{{ i }}">{{ i }}º semestre</option>
+                    <option value="{{ i }}">{{ i }}º semestre</option>
                     {% endfor %}
                 </select>
             </div>
-            
+        
             <!-- Botón de guardar -->
             <button type="submit" class="btn-submit">Agregar Usuario</button>
         </form>
+        
     </div>
 </div>
 
 {% endblock %}
+
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('editar-usuario-form');
+
+    form.addEventListener('submit', function(event) {
+        var isValid = true;
+
+        // Referencias a los campos y mensajes de error
+        var nombreInput = document.getElementById('nombre');
+        var emailInput = document.getElementById('email');
+        var passwordInput = document.getElementById('password');
+        var confirmNumberInput = document.getElementById('confirm-number');
+        var roleSelect = document.getElementById('role');
+        var carreraInput = document.getElementById('carrera');
+        
+        var nombreError = document.getElementById('nombre-error');
+        var emailError = document.getElementById('email-error');
+        var passwordError = document.getElementById('password-error');
+        var confirmNumberError = document.getElementById('confirm-number-error');
+        var roleError = document.getElementById('role-error');
+        var carreraError = document.getElementById('carrera-error');
+        
+        // Validación del campo "Nombre"
+        if (!nombreInput.value.match(/^[A-Za-záéíóúÁÉÍÓÚ\s]+$/)) {
+            nombreError.style.display = 'block';
+            isValid = false;
+        } else {
+            nombreError.style.display = 'none';
+        }
+
+        // Validación del campo "Correo electrónico"
+        if (emailInput.value.length < 5 || !emailInput.value.includes('@')) {
+            emailError.style.display = 'block';
+            isValid = false;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        // Validación de la "Contraseña"
+        var password = passwordInput.value;
+        if (password.length < 8 || !password.match(/\d/) || !password.match(/[!@#$%^&*]/) || !password.match(/[A-Za-z]/)) {
+            passwordError.style.display = 'block';
+            isValid = false;
+        } else {
+            passwordError.style.display = 'none';
+        }
+
+        // Validación del campo "Código de estudiante"
+        if (confirmNumberInput.value.length < 7) {
+            confirmNumberError.style.display = 'block';
+            isValid = false;
+        } else {
+            confirmNumberError.style.display = 'none';
+        }
+
+        // Validación del campo "Tipo de usuario"
+        if (roleSelect.value === '') {
+            roleError.style.display = 'block';
+            isValid = false;
+        } else {
+            roleError.style.display = 'none';
+        }
+
+        // Validación del campo "Carrera"
+        if (carreraInput.value.length < 5) {
+            carreraError.style.display = 'block';
+            isValid = false;
+        } else {
+            carreraError.style.display = 'none';
+        }
+
+        // Si alguna validación falla, se previene el envío del formulario
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+});
+
+
+</script>

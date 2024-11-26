@@ -1,0 +1,90 @@
+<!-- register.html -->
+
+
+{% block head %}
+    <!-- Cargar el archivo CSS solo en la página de registro -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_principal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">TutorU</div>
+            <div class="user-menu">
+                <span>{{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
+                <!-- Botón de salida -->
+                
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="register-container">
+    <h1>Editar Tutoria</h1>
+
+    <form id="registro-estudiante" action="{{ url_for('editar_tutoria_docente', tutoria_id=tutoria.id) }}" method="POST" novalidate>
+        <div class="form-group">
+            <label for="tema">Tema:</label>
+            <small id="tema-error" style="color: red; display: none;">Este campo es obligatorio.</small>
+            <input type="text" id="tema" name="tema" maxlength="100" value="{% if tutoria.tema %}{{ tutoria.tema }}{% else %}{% endif %}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="horario">Horario de Disponibilidad:</label>
+            <small id="horario-error" style="color: red; display: none;">Este campo es obligatorio.</small>
+            <input type="datetime-local" id="horario" name="horario" value="{{ tutoria.horario }}" placeholder="Ej: Lunes a Viernes, 9:00 AM - 6:00 PM" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="ubicacion">Ubicación:</label>
+            <small id="ubicacion-error" style="color: red; display: none;">La ubicación debe tener al menos 5 caracteres.</small>
+            <input type="text" id="ubicacion" name="ubicacion" minlength="5" maxlength="255" value="{% if tutoria.ubicacion %}{{ tutoria.ubicacion }}{% else %}{% endif %}" placeholder="Ej: Edificio A, Piso 2, Sala 201" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Actualizar Cambios</button>
+    </form>
+</div>
+
+{% endblock %}
+
+<script>
+document.querySelector('.btn-submit').addEventListener('click', function(event) {
+    var temaInput = document.getElementById('tema');
+    var horarioInput = document.getElementById('horario');
+    var ubicacionInput = document.getElementById('ubicacion');
+    
+    var temaError = document.getElementById('tema-error');
+    var horarioError = document.getElementById('horario-error');
+    var ubicacionError = document.getElementById('ubicacion-error');
+    
+    // Validar el campo "Tema"
+    if (temaInput.value.trim() === '') {
+        temaError.style.display = 'block';
+        event.preventDefault(); // Prevenir el envío del formulario
+    } else {
+        temaError.style.display = 'none';
+    }
+
+    // Validar el campo "Horario de Disponibilidad"
+    if (horarioInput.value === '') {
+        horarioError.style.display = 'block';
+        event.preventDefault(); // Prevenir el envío del formulario
+    } else {
+        horarioError.style.display = 'none';
+    }
+
+    // Validar el campo "Ubicación" para que tenga al menos 5 caracteres
+    if (ubicacionInput.value.length < 5) {
+        ubicacionError.style.display = 'block';
+        event.preventDefault(); // Prevenir el envío del formulario
+    } else {
+        ubicacionError.style.display = 'none';
+    }
+});
+
+</script>
+

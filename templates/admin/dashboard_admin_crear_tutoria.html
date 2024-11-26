@@ -1,0 +1,33 @@
+<!-- templates/dashboard.html -->
+{% extends 'components/base.html' %}
+
+{% block content %}
+
+{% include 'components/header.html' %}
+
+<div class="sala">
+    <div class="container">
+        <h1>Crear Nueva Sala de Tutoría</h1>
+        <!-- Formulario tradicional -->
+        <form action="/crear_tutoria" method="POST">
+            <div class="form-group">
+                <label for="nombre-tutoria">Nombre de la Tutoria:</label>
+                <input type="text" id="nombre-tutoria" name="nombre-tutoria" maxlength="100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="docente">Docente Asignado:</label>
+                <select id="docente" name="docente" required>
+                    <option value="">Seleccionar Docente</option>
+                    {% for docente in docentes %}
+                    <option value="{{ docente.id }}">{{ docente.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <button type="submit" class="btn-submit">Crear Tutoria</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -146,8 +146,24 @@
             transition: background-color 0.3s;
         }
 
+        .editar-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: rgb(18, 216, 34);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
         .ver-estudiantes-btn:hover {
             background-color: #2980b9;
+        }
+
+        .editar-btn:hover {
+            background-color: rgb(20, 158, 32);
         }
 
         @media (max-width: 768px) {
@@ -164,7 +180,6 @@
                 <div class="logo">TutorU</div>
                 <div class="user-menu">
                     <span>Bienvenido, {{ current_user.username }}</span> <!-- Nombre dinámico del docente -->
-                    <img src="https://via.placeholder.com/40" alt="Foto de perfil">
                     <!-- Botón de salida -->
                     <a href="{{ url_for('logout') }}" class="logout-btn">Salir</a>
                 </div>
@@ -176,16 +191,25 @@
         <div class="container">
             <h1>Dashboard Docente</h1>
             <section class="tutorias-grid">
-                {% for sala in salas %}
+                {% for tutoria in tutorias %}
                 <article class="tutoria-card">
-                    <h2 class="tutoria-title">{{ sala.nombre_sala }}</h2>
-                    <p class="tutoria-materia">{{ sala.descripcion }}</p>
+                    <h2 class="tutoria-title">{{ tutoria.nombre }}</h2>
+                    <p class="tutoria-materia">{{ tutoria.descripcion }}</p>
                     <div class="tutoria-info">
-                        <p>Horario: {{ sala.horario }}</p>
-                        <p>Ubicación: {{ sala.ubicacion }}</p>
-                        <p>Estudiantes: {{ sala.estudiantes|length }}</p>
+                        <p>Horario: {{ tutoria.horario }}</p>
+                        <p>Ubicación: {{ tutoria.ubicacion }}</p>
+                        <p>Estudiantes: {{ tutoria.estudiantes|length }}</p>
+                        <p>{% if tutoria.estado == true %}Activo{% else %}Finalizado{% endif %}</p>
                     </div>
-                    <a href="{{ url_for('ver_estudiantes', sala_id=sala.id) }}" class="ver-estudiantes-btn">Ver Estudiantes</a>
+                    <a href="{{ url_for('ver_estudiantes', tutoria_id=tutoria.id) }}" class="ver-estudiantes-btn">Ver Estudiantes</a>
+
+                    {%if tutoria.estado == True %} 
+                    <a href="{{ url_for('editar_tutoria_docente', tutoria_id=tutoria.id) }}" class="editar-btn">Editar Tutoria</a>
+                    {% endif %}
+                    
+                    {%if tutoria.horario and tutoria.ubicacion and tutoria.estado == True%}
+                    <a href="{{ url_for('finalizar_tutoria', tutoria_id=tutoria.id) }}" class="editar-btn">Finalizar</a>
+                    {% endif %}
                 </article>
                 {% else %}
                 <p>No tienes tutorías programadas.</p>

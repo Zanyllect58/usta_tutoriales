@@ -17,10 +17,11 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre de la Tutoría</th>
-                <th>Descripción</th>
+                <th>Compromiso</th>
                 <th>Horario</th>
                 <th>Docente Asignado</th>
                 <th>Ubicación</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,13 +30,14 @@
             <tr>
                 <td>{{ t.id }}</td>
                 <td>{{ t.nombre }}</td>
-                <td>{{ t.descripcion }}</td>
+                <td class="truncate">{{ t.compromiso }}</td>
                 <td>{{ t.horario }}</td>
-                <td>{{ t.docente.username }}</td>
-                <td>{{ t.ubicacion }}</td>
+                <td>{{ t.teacher.username }}</td>
+                <td>{{ t.ubicacion }}</td>                
+                <td>{% if t.estado == true %}Activo{% else %}Finalizado{% endif %}</td>                
                 <td>
-                    <a href="{{ url_for('editar_tutoria', sala_id=t.id) }}" class="btn-action btn-edit">Editar</a>
-                    <form action="{{ url_for('eliminar_tutoria', sala_id=t.id) }}" method="POST" style="display:inline;">
+                    <a href="{{ url_for('editar_tutoria', tutoria_id=t.id) }}" class="btn-action btn-edit">Editar</a>
+                    <form action="{{ url_for('eliminar_tutoria', tutoria_id=t.id) }}" method="POST" style="display:inline;">
                         <button type="submit" class="btn-action btn-delete" onclick="return confirm('¿Estás seguro de que deseas eliminar esta tutoría?');">Eliminar</button>
                     </form>
                 </td>
