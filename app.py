@@ -354,20 +354,14 @@ def dashboard_admin():
 def dashboard_usuarios():
     user = current_user
     salas = Sala.query.all()
-    suscripciones = user.suscripciones
-    suscripciones_ids = [sala.id for sala in suscripciones]
-    return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids)
 
-# Dashboard para Docentes
-def dashboard_usuarios():
-    user = current_user
-    salas = Sala.query.all()
-    suscripciones = user.suscripciones
-    suscripciones_ids = [sala.id for sala in suscripciones]
+    # Cambia 'suscripciones' por 'salas_inscritas'
+    salas_inscritas = user.salas_inscritas
+    suscripciones_ids = [suscripcion.sala_id for suscripcion in salas_inscritas]  # Obtener los IDs de las salas inscritas
 
     # Obtener historial de sesiones (salas a las que está suscrito)
     historial = []
-    for suscripcion in suscripciones:
+    for suscripcion in salas_inscritas:
         historial.append(suscripcion.sala)  # Accedemos a la sala relacionada con la suscripción
 
     return render_template('usuario/dashboard_usuarios.html', salas=salas, suscripciones_ids=suscripciones_ids, historial=historial)
@@ -375,11 +369,11 @@ def dashboard_usuarios():
 # =============================
 # Rutas de Gestión de Suscripciones
 # =============================
-
 @app.route('/suscribirse_sala/<int:sala_id>', methods=['POST'])
 @login_required
 def suscribirse_sala(sala_id):
-    sala = Sala.query.get(sala_id)
+    # Cambia esta línea
+    sala = db.session.get(Sala, sala_id)
     if not sala:
         return jsonify({"status": "error", "message": "Sala no encontrada"}), 404
 
@@ -396,7 +390,8 @@ def suscribirse_sala(sala_id):
 @app.route('/eliminar_suscripcion/<int:sala_id>', methods=['POST'])
 @login_required
 def eliminar_suscripcion(sala_id):
-    sala = Sala.query.get(sala_id)
+    # Cambia esta línea
+    sala = db.session.get(Sala, sala_id)
     if not sala:
         return jsonify({"status": "error", "message": "Sala no encontrada"}), 404
 
